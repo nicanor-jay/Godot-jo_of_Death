@@ -39,6 +39,7 @@ offset_left = -35.0
 offset_top = -22.0
 offset_right = 665.0
 offset_bottom = 680.0
+mouse_filter = 2
 color = Color(0.655974, 0.573156, 0.436145, 1)
 
 [node name="Left" type="StaticBody2D" parent="Level"]
@@ -91,7 +92,6 @@ shape = SubResource("RectangleShape2D_5yf2v")
 unique_name_in_owner = true
 position = Vector2(585, 611)
 collision_layer = 128
-input_pickable = true
 script = ExtResource("3_lom3i")
 speedCurve = SubResource("Curve_5hr3b")
 
@@ -144,10 +144,10 @@ scale = Vector2(1.74115, 1.74115)
 shape = SubResource("CapsuleShape2D_hh3ye")
 
 [node name="Enemy" parent="." groups=["enemy"] instance=ExtResource("5_x53ig")]
-position = Vector2(197, 192)
+position = Vector2(-509, 265)
 
 [node name="ranged_enemy" parent="." groups=["enemy"] instance=ExtResource("6_0t8dq")]
-position = Vector2(389, 223)
+position = Vector2(-317, 296)
 
 [node name="Path2D" type="Path2D" parent="."]
 position = Vector2(35, 22)
