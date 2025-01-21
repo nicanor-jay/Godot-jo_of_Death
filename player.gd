@@ -6,16 +6,22 @@ var dash_direction: Vector2
 const DEFAULT_SPEED = 300.0
 const DASH_SPEED = 1500
 const DEFAULT_ATTACK_COOLDOWN = 2.0
+const DEFAULT_RECOVERY_COOLDOWN = 0.2
+const DEFAULT_ATTACK_DURATION = 0.15
+const MULTI_KILL_MODIFIER = 1.5
 
 var can_move = true
 var can_attack = true
 var is_attacking = false
+var is_recovering = false
 var is_dead = false
 var enemies_killed_in_dash = 0
 
 func _ready() -> void:
 	$Hitbox.add_to_group("player")
+	$AttackCooldown.wait_time = DEFAULT_ATTACK_DURATION
 	$AttackCooldown.wait_time = DEFAULT_ATTACK_COOLDOWN
+	$AttackRecovery.wait_time = DEFAULT_RECOVERY_COOLDOWN
 
 func _physics_process(delta: float) -> void:
 
@@ -23,6 +29,9 @@ func _physics_process(delta: float) -> void:
 		# play death animation
 		pass
 		
+	if is_recovering:
+		return
+	
 	if is_attacking:
 		velocity = dash_direction* DASH_SPEED
 		move_and_slide()
@@ -52,15 +61,17 @@ func _physics_process(delta: float) -> void:
 func _on_attack_duration_timeout() -> void:
 	print("attack finished")
 	is_attacking = false
+	is_recovering = true
 	
 	if enemies_killed_in_dash > 0:
-		Events.add_to_score.emit(10 * enemies_killed_in_dash)
-		$AttackCooldown.wait_time = DEFAULT_ATTACK_COOLDOWN / 2
+		Events.add_to_score.emit(10 * enemies_killed_in_dash  * enemies_killed_in_dash)
+		$AttackCooldown.wait_time = DEFAULT_ATTACK_COOLDOWN / 4
 	else:
 		$AttackCooldown.wait_time = DEFAULT_ATTACK_COOLDOWN
 	
 	enemies_killed_in_dash = 0
 	$AttackCooldown.start()	
+	$AttackRecovery.start()
 
 
 func _on_attack_cooldown_timeout() -> void:
@@ -115,3 +126,7 @@ func _on_hitbox_area_entered(area: Area2D) -> void:
 			get_tree().paused = true
 			queue_free()
 			
+
+
+func _on_attack_recovery_timeout() -> void:
+	is_recovering = false

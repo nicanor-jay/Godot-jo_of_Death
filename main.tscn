@@ -90,11 +90,15 @@ texture = ExtResource("2_4lab8")
 shape = SubResource("CircleShape2D_n2hib")
 
 [node name="AttackCooldown" type="Timer" parent="Player"]
-wait_time = 0.5
+wait_time = 0.2
 one_shot = true
 
 [node name="AttackDuration" type="Timer" parent="Player"]
 wait_time = 0.15
+one_shot = true
+
+[node name="AttackRecovery" type="Timer" parent="Player"]
+wait_time = 0.1
 one_shot = true
 
 [node name="MouseDeadZone" type="Area2D" parent="Player"]
@@ -161,6 +165,7 @@ texture = ExtResource("2_4lab8")
 
 [connection signal="timeout" from="Player/AttackCooldown" to="Player" method="_on_attack_cooldown_timeout"]
 [connection signal="timeout" from="Player/AttackDuration" to="Player" method="_on_attack_duration_timeout"]
+[connection signal="timeout" from="Player/AttackRecovery" to="Player" method="_on_attack_recovery_timeout"]
 [connection signal="mouse_entered" from="Player/MouseDeadZone" to="Player" method="_on_mouse_dead_zone_mouse_entered"]
 [connection signal="mouse_exited" from="Player/MouseDeadZone" to="Player" method="_on_mouse_dead_zone_mouse_exited"]
 [connection signal="area_entered" from="Player/Hitbox" to="Player" method="_on_hitbox_area_entered"]
