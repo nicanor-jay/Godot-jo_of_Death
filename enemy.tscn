@@ -1,0 +1,62 @@
+[gd_scene load_steps=7 format=3 uid="uid://b0mjo4dhgje80"]
+
+[ext_resource type="Script" path="res://enemy.gd" id="1_1dliw"]
+[ext_resource type="Texture2D" uid="uid://c6mwhkj2aj7ff" path="res://icon.svg" id="1_3k2hr"]
+[ext_resource type="Script" path="res://hitbox.gd" id="3_gchak"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_c4lu8"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_syix7"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_6n134"]
+radius = 14.0538
+height = 40.9903
+
+[node name="Enemy" type="CharacterBody2D"]
+collision_layer = 256
+script = ExtResource("1_1dliw")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(0, -0.499969)
+scale = Vector2(0.328125, 0.492188)
+texture = ExtResource("1_3k2hr")
+
+[node name="CollisionBox" type="CollisionShape2D" parent="."]
+position = Vector2(0, 16)
+scale = Vector2(1.50876, 1.50876)
+shape = SubResource("CircleShape2D_c4lu8")
+
+[node name="AttackDetectionRange" type="Area2D" parent="."]
+position = Vector2(0, 6.29425e-05)
+collision_layer = 64
+collision_mask = 128
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AttackDetectionRange"]
+position = Vector2(0, -3.8147e-06)
+scale = Vector2(10, 10)
+shape = SubResource("CircleShape2D_syix7")
+
+[node name="Hitbox" type="Area2D" parent="." groups=["enemy"]]
+collision_layer = 256
+collision_mask = 8
+script = ExtResource("3_gchak")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
+scale = Vector2(1.70772, 1.70772)
+shape = SubResource("CapsuleShape2D_6n134")
+
+[node name="AttackChargeUp" type="Timer" parent="."]
+one_shot = true
+
+[node name="AttackCooldown" type="Timer" parent="."]
+one_shot = true
+
+[node name="AttackDuration" type="Timer" parent="."]
+wait_time = 0.15
+one_shot = true
+
+[connection signal="body_entered" from="AttackDetectionRange" to="." method="_on_area_2d_body_entered"]
+[connection signal="body_exited" from="AttackDetectionRange" to="." method="_on_area_2d_body_exited"]
+[connection signal="timeout" from="AttackChargeUp" to="." method="_on_attack_charge_up_timeout"]
+[connection signal="timeout" from="AttackCooldown" to="." method="_on_attack_cooldown_timeout"]
+[connection signal="timeout" from="AttackDuration" to="." method="_on_attack_duration_timeout"]
