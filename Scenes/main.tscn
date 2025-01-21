@@ -1,10 +1,11 @@
-[gd_scene load_steps=11 format=3 uid="uid://ds7eus4erbjtl"]
+[gd_scene load_steps=12 format=3 uid="uid://ds7eus4erbjtl"]
 
 [ext_resource type="Script" path="res://Scripts/main.gd" id="1_kn0ru"]
 [ext_resource type="Texture2D" uid="uid://c6mwhkj2aj7ff" path="res://Entities/icon.svg" id="2_maliw"]
 [ext_resource type="Script" path="res://Scripts/player.gd" id="3_lom3i"]
 [ext_resource type="Texture2D" uid="uid://b5ib34vkp7jjh" path="res://Entities/arrow.png" id="4_rcwgo"]
 [ext_resource type="PackedScene" uid="uid://b0mjo4dhgje80" path="res://Scenes/melee_enemy.tscn" id="5_x53ig"]
+[ext_resource type="PackedScene" uid="uid://cs3f6grod8yjp" path="res://Scenes/ranged_enemy.tscn" id="6_0t8dq"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_5yf2v"]
 
@@ -74,7 +75,7 @@ texture = ExtResource("2_maliw")
 scale = Vector2(5.84422, 5.84422)
 shape = SubResource("RectangleShape2D_5yf2v")
 
-[node name="Player" type="CharacterBody2D" parent="."]
+[node name="Player" type="CharacterBody2D" parent="." groups=["player"]]
 unique_name_in_owner = true
 position = Vector2(585, 611)
 collision_layer = 128
@@ -130,8 +131,11 @@ position = Vector2(0, -21)
 scale = Vector2(1.74115, 1.74115)
 shape = SubResource("CapsuleShape2D_hh3ye")
 
-[node name="Enemy" parent="." groups=["dead_enemies"] instance=ExtResource("5_x53ig")]
-position = Vector2(214, 339)
+[node name="Enemy" parent="." groups=["enemy"] instance=ExtResource("5_x53ig")]
+position = Vector2(197, 192)
+
+[node name="ranged_enemy" parent="." groups=["enemy"] instance=ExtResource("6_0t8dq")]
+position = Vector2(389, 223)
 
 [node name="Path2D" type="Path2D" parent="."]
 position = Vector2(35, 22)
@@ -172,6 +176,7 @@ text = "x1"
 
 [node name="DeadSpriteTemplate" type="Sprite2D" parent="."]
 unique_name_in_owner = true
+z_as_relative = false
 position = Vector2(-341, -159)
 scale = Vector2(0.328125, 0.492188)
 texture = ExtResource("2_maliw")
@@ -181,6 +186,7 @@ texture = ExtResource("2_maliw")
 [connection signal="timeout" from="Player/AttackRecovery" to="Player" method="_on_attack_recovery_timeout"]
 [connection signal="mouse_entered" from="Player/MouseDeadZone" to="Player" method="_on_mouse_dead_zone_mouse_entered"]
 [connection signal="mouse_exited" from="Player/MouseDeadZone" to="Player" method="_on_mouse_dead_zone_mouse_exited"]
-[connection signal="area_entered" from="Player/Hitbox" to="Player" method="_on_hitbox_area_entered"]
+[connection signal="area_entered" from="Player/Hitbox" to="Player" method="_on_hitbox_area_entered_exited"]
+[connection signal="area_exited" from="Player/Hitbox" to="Player" method="_on_hitbox_area_entered_exited"]
 [connection signal="timeout" from="EnemySpawnTimer" to="." method="_on_enemy_spawn_timer_timeout"]
 [connection signal="timeout" from="ComboTimer" to="." method="_on_combo_timer_timeout"]

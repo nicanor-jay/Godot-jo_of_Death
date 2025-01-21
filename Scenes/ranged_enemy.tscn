@@ -1,49 +1,50 @@
-[gd_scene load_steps=7 format=3 uid="uid://b0mjo4dhgje80"]
+[gd_scene load_steps=7 format=3 uid="uid://cs3f6grod8yjp"]
 
-[ext_resource type="Script" path="res://Scripts/melee_enemy.gd" id="1_n7t5b"]
-[ext_resource type="Texture2D" uid="uid://c6mwhkj2aj7ff" path="res://Entities/icon.svg" id="2_qca2l"]
-[ext_resource type="Script" path="res://Scripts/hitbox.gd" id="3_5harx"]
+[ext_resource type="Script" path="res://Scripts/ranged_enemy.gd" id="1_0aic2"]
+[ext_resource type="Texture2D" uid="uid://c6mwhkj2aj7ff" path="res://Entities/icon.svg" id="1_10e46"]
+[ext_resource type="Script" path="res://Scripts/hitbox.gd" id="2_gslns"]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_c4lu8"]
+[sub_resource type="CircleShape2D" id="CircleShape2D_2koog"]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_syix7"]
+[sub_resource type="CircleShape2D" id="CircleShape2D_n6n27"]
 
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_6n134"]
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_n37so"]
 radius = 14.0538
 height = 40.9903
 
-[node name="Enemy" type="CharacterBody2D"]
-collision_layer = 256
-script = ExtResource("1_n7t5b")
+[node name="ranged_enemy" type="CharacterBody2D"]
+collision_layer = 0
+script = ExtResource("1_0aic2")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 position = Vector2(0, -2.98023e-08)
-scale = Vector2(0.328125, 0.492188)
-texture = ExtResource("2_qca2l")
+scale = Vector2(-0.328, -0.492)
+texture = ExtResource("1_10e46")
 
 [node name="CollisionBox" type="CollisionShape2D" parent="."]
 position = Vector2(0, 16)
 scale = Vector2(1.50876, 1.50876)
-shape = SubResource("CircleShape2D_c4lu8")
+shape = SubResource("CircleShape2D_2koog")
 
 [node name="AttackDetectionRange" type="Area2D" parent="."]
-position = Vector2(0, 6.29425e-05)
+position = Vector2(0, 1.90735e-06)
+scale = Vector2(1.50876, 1.50876)
 collision_layer = 64
 collision_mask = 128
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="AttackDetectionRange"]
 position = Vector2(0, -3.8147e-06)
-scale = Vector2(10, 10)
-shape = SubResource("CircleShape2D_syix7")
+scale = Vector2(7.9889, 7.9889)
+shape = SubResource("CircleShape2D_n6n27")
 
 [node name="Hitbox" type="Area2D" parent="." groups=["enemy"]]
 collision_layer = 272
 collision_mask = 8
-script = ExtResource("3_5harx")
+script = ExtResource("2_gslns")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
 scale = Vector2(1.70772, 1.70772)
-shape = SubResource("CapsuleShape2D_6n134")
+shape = SubResource("CapsuleShape2D_n37so")
 
 [node name="AttackChargeUp" type="Timer" parent="."]
 one_shot = true
@@ -55,8 +56,8 @@ one_shot = true
 wait_time = 0.15
 one_shot = true
 
-[connection signal="body_entered" from="AttackDetectionRange" to="." method="_on_area_2d_body_entered"]
-[connection signal="body_exited" from="AttackDetectionRange" to="." method="_on_area_2d_body_exited"]
+[connection signal="body_entered" from="AttackDetectionRange" to="." method="_on_attack_detection_range_body_entered"]
+[connection signal="body_exited" from="AttackDetectionRange" to="." method="_on_attack_detection_range_body_exited"]
 [connection signal="timeout" from="AttackChargeUp" to="." method="_on_attack_charge_up_timeout"]
 [connection signal="timeout" from="AttackCooldown" to="." method="_on_attack_cooldown_timeout"]
 [connection signal="timeout" from="AttackDuration" to="." method="_on_attack_duration_timeout"]

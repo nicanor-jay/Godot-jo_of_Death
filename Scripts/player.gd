@@ -83,10 +83,8 @@ func _on_attack_cooldown_timeout() -> void:
 func _on_mouse_dead_zone_mouse_entered() -> void:
 	can_move = false
 
-
 func _on_mouse_dead_zone_mouse_exited() -> void:
 		can_move = true
-
 
 func _on_hitbox_body_entered(body: Node2D) -> void:
 	print("Body detected")
@@ -96,15 +94,13 @@ func _on_hitbox_body_entered(body: Node2D) -> void:
 		body.queue_free()
 
 
-func _on_hitbox_area_entered(area: Area2D) -> void:
+func _on_hitbox_area_entered_exited(area: Area2D) -> void:
 	print("Area detected")
 	if area is not EnemyHitbox:
 		return
 		
-	var enemy = area.get_parent()
-	print(enemy)
-	
 	print("enemy detected")
+	var enemy = area.get_parent()
 	if is_attacking:
 		# Player always kills enemy if attacking
 		enemies_killed_in_dash+=1
@@ -116,7 +112,7 @@ func _on_hitbox_area_entered(area: Area2D) -> void:
 		dead_sprite.global_position = area.global_position
 		dead_sprite.modulate = Color(1,.9,.9,1)
 		dead_sprite.z_index = -5
-		get_parent().add_child(dead_sprite)
+		get_parent().add_child.call_deferred(dead_sprite)
 		add_to_group("dead_enemies")
 		
 		enemy.queue_free()
@@ -125,8 +121,7 @@ func _on_hitbox_area_entered(area: Area2D) -> void:
 		if enemy.get_is_attacking():
 			#print("DEATH")
 			get_tree().paused = true
-			queue_free()
-			
+			queue_free()			
 
 
 func _on_attack_recovery_timeout() -> void:
