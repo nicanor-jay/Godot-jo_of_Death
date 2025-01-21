@@ -58,7 +58,4 @@ func _on_combo_timer_timeout() -> void:
 func reset_combo_timer():
 	combo = 1
 	$UI/ComboLabel.text = "x" + str(combo)
-	#$ComboTimer.stop()
-	#$ComboTimer.wait_time = DEFAULT_COMBO_DURATION
-	#$ComboTimer.start()
 	pass

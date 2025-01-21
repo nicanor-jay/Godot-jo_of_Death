@@ -21,7 +21,6 @@ func _ready() -> void:
 	$Hitbox.add_to_group("enemy")
 
 func _physics_process(delta: float) -> void:
-
 	if is_charging or is_cooling_down:
 		# Stay still until charging over
 		return

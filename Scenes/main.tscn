@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://ds7eus4erbjtl"]
+[gd_scene load_steps=13 format=3 uid="uid://ds7eus4erbjtl"]
 
 [ext_resource type="Script" path="res://Scripts/main.gd" id="1_kn0ru"]
 [ext_resource type="Texture2D" uid="uid://c6mwhkj2aj7ff" path="res://Entities/icon.svg" id="2_maliw"]
@@ -8,6 +8,10 @@
 [ext_resource type="PackedScene" uid="uid://cs3f6grod8yjp" path="res://Scenes/ranged_enemy.tscn" id="6_0t8dq"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_5yf2v"]
+
+[sub_resource type="Curve" id="Curve_5hr3b"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), -2.3663, 0.0, 0, 0]
+point_count = 2
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_n2hib"]
 
@@ -26,52 +30,60 @@ point_count = 5
 y_sort_enabled = true
 script = ExtResource("1_kn0ru")
 
-[node name="Walls" type="Node2D" parent="."]
+[node name="Level" type="Node2D" parent="."]
 position = Vector2(35, 22)
 
-[node name="Left" type="StaticBody2D" parent="Walls"]
+[node name="ColorRect" type="ColorRect" parent="Level"]
+z_index = -10
+offset_left = -35.0
+offset_top = -22.0
+offset_right = 665.0
+offset_bottom = 680.0
+color = Color(0.655974, 0.573156, 0.436145, 1)
+
+[node name="Left" type="StaticBody2D" parent="Level"]
 position = Vector2(-39, 322)
 scale = Vector2(1, 6.76)
 
-[node name="Sprite2D" type="Sprite2D" parent="Walls/Left"]
+[node name="Sprite2D" type="Sprite2D" parent="Level/Left"]
 texture = ExtResource("2_maliw")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/Left"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Level/Left"]
 scale = Vector2(5.84422, 5.84422)
 shape = SubResource("RectangleShape2D_5yf2v")
 
-[node name="Right" type="StaticBody2D" parent="Walls"]
+[node name="Right" type="StaticBody2D" parent="Level"]
 position = Vector2(678, 322)
 scale = Vector2(1, 6.76)
 
-[node name="Sprite2D" type="Sprite2D" parent="Walls/Right"]
+[node name="Sprite2D" type="Sprite2D" parent="Level/Right"]
 texture = ExtResource("2_maliw")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/Right"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Level/Right"]
 scale = Vector2(5.84422, 5.84422)
 shape = SubResource("RectangleShape2D_5yf2v")
 
-[node name="Up" type="StaticBody2D" parent="Walls"]
+[node name="Up" type="StaticBody2D" parent="Level"]
 position = Vector2(345, -37)
 rotation = 1.5708
 scale = Vector2(1, 6.76)
 
-[node name="Sprite2D" type="Sprite2D" parent="Walls/Up"]
+[node name="Sprite2D" type="Sprite2D" parent="Level/Up"]
 texture = ExtResource("2_maliw")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/Up"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Level/Up"]
 scale = Vector2(5.84422, 5.84422)
 shape = SubResource("RectangleShape2D_5yf2v")
 
-[node name="Down" type="StaticBody2D" parent="Walls"]
+[node name="Down" type="StaticBody2D" parent="Level"]
 position = Vector2(345, 693)
 rotation = 1.5708
 scale = Vector2(1, 6.76)
 
-[node name="Sprite2D" type="Sprite2D" parent="Walls/Down"]
+[node name="Sprite2D" type="Sprite2D" parent="Level/Down"]
 texture = ExtResource("2_maliw")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/Down"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Level/Down"]
 scale = Vector2(5.84422, 5.84422)
 shape = SubResource("RectangleShape2D_5yf2v")
 
@@ -79,9 +91,9 @@ shape = SubResource("RectangleShape2D_5yf2v")
 unique_name_in_owner = true
 position = Vector2(585, 611)
 collision_layer = 128
-collision_mask = 17
 input_pickable = true
 script = ExtResource("3_lom3i")
+speedCurve = SubResource("Curve_5hr3b")
 
 [node name="Sprite2D" type="Sprite2D" parent="Player"]
 position = Vector2(0, -21)
@@ -124,7 +136,7 @@ texture = ExtResource("4_rcwgo")
 
 [node name="Hitbox" type="Area2D" parent="Player" groups=["player"]]
 collision_layer = 8
-collision_mask = 256
+collision_mask = 16
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Player/Hitbox"]
 position = Vector2(0, -21)
@@ -147,7 +159,6 @@ rotation = 0.00185185
 
 [node name="EnemySpawnTimer" type="Timer" parent="."]
 wait_time = 0.7
-autostart = true
 
 [node name="ComboTimer" type="Timer" parent="."]
 one_shot = true

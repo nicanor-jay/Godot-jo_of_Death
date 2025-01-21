@@ -34,7 +34,7 @@ collision_mask = 128
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="AttackDetectionRange"]
 position = Vector2(0, -3.8147e-06)
-scale = Vector2(7.9889, 7.9889)
+scale = Vector2(10.8741, 10.8741)
 shape = SubResource("CircleShape2D_n6n27")
 
 [node name="Hitbox" type="Area2D" parent="." groups=["enemy"]]

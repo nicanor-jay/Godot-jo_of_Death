@@ -3,6 +3,8 @@ class_name Player
 
 var dash_direction: Vector2
 
+@export var speedCurve: Curve
+
 const DEFAULT_SPEED = 300.0
 const DASH_SPEED = 1500
 const DEFAULT_ATTACK_COOLDOWN = 2.0
@@ -81,25 +83,26 @@ func _on_attack_cooldown_timeout() -> void:
 	can_attack = true
 	
 func _on_mouse_dead_zone_mouse_entered() -> void:
+	print("Mouse enterd DEADSZONE")
 	can_move = false
 
 func _on_mouse_dead_zone_mouse_exited() -> void:
 		can_move = true
 
-func _on_hitbox_body_entered(body: Node2D) -> void:
-	print("Body detected")
-	if body is Enemy and is_attacking:
-		print("enemy detected")
-		
-		body.queue_free()
-
 
 func _on_hitbox_area_entered_exited(area: Area2D) -> void:
-	print("Area detected")
-	if area is not EnemyHitbox:
+	if not area.is_in_group("enemy"):
 		return
 		
-	print("enemy detected")
+	if area is Projectile:
+		if is_attacking and area.has_method("break_apart"):
+			area.break_apart()
+		else:
+			print("Projectile detected")
+			get_tree().paused = true
+			queue_free()
+		return
+	## Area is a EnemyHitbox
 	var enemy = area.get_parent()
 	if is_attacking:
 		# Player always kills enemy if attacking
