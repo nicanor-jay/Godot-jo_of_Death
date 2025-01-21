@@ -65,6 +65,7 @@ func _on_attack_duration_timeout() -> void:
 	
 	if enemies_killed_in_dash > 0:
 		Events.add_to_score.emit(10 * enemies_killed_in_dash  * enemies_killed_in_dash)
+		Events.add_to_combo.emit(enemies_killed_in_dash)
 		$AttackCooldown.wait_time = DEFAULT_ATTACK_COOLDOWN / 4
 	else:
 		$AttackCooldown.wait_time = DEFAULT_ATTACK_COOLDOWN

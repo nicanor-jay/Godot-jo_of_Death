@@ -21,7 +21,8 @@ Events="*res://Scripts/Events.gd"
 
 [display]
 
-window/size/viewport_width=648
+window/size/viewport_width=700
+window/size/viewport_height=700
 
 [global_group]
 
