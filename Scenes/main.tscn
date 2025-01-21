@@ -1,10 +1,10 @@
 [gd_scene load_steps=11 format=3 uid="uid://ds7eus4erbjtl"]
 
-[ext_resource type="Script" path="res://main.gd" id="1_r20yr"]
-[ext_resource type="Script" path="res://player.gd" id="1_u8vys"]
-[ext_resource type="Texture2D" uid="uid://c6mwhkj2aj7ff" path="res://icon.svg" id="2_4lab8"]
-[ext_resource type="Texture2D" uid="uid://b5ib34vkp7jjh" path="res://arrow.png" id="3_nu7gp"]
-[ext_resource type="PackedScene" uid="uid://b0mjo4dhgje80" path="res://enemy.tscn" id="4_6njj1"]
+[ext_resource type="Script" path="res://Scripts/main.gd" id="1_kn0ru"]
+[ext_resource type="Texture2D" uid="uid://c6mwhkj2aj7ff" path="res://Entities/icon.svg" id="2_maliw"]
+[ext_resource type="Script" path="res://Scripts/player.gd" id="3_lom3i"]
+[ext_resource type="Texture2D" uid="uid://b5ib34vkp7jjh" path="res://Entities/arrow.png" id="4_rcwgo"]
+[ext_resource type="PackedScene" uid="uid://b0mjo4dhgje80" path="res://Scenes/melee_enemy.tscn" id="5_x53ig"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_5yf2v"]
 
@@ -23,7 +23,7 @@ point_count = 5
 
 [node name="Main" type="Node2D"]
 y_sort_enabled = true
-script = ExtResource("1_r20yr")
+script = ExtResource("1_kn0ru")
 
 [node name="Walls" type="Node2D" parent="."]
 
@@ -32,7 +32,7 @@ position = Vector2(-39, 322)
 scale = Vector2(1, 6.76)
 
 [node name="Sprite2D" type="Sprite2D" parent="Walls/Left"]
-texture = ExtResource("2_4lab8")
+texture = ExtResource("2_maliw")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/Left"]
 scale = Vector2(5.84422, 5.84422)
@@ -43,7 +43,7 @@ position = Vector2(678, 322)
 scale = Vector2(1, 6.76)
 
 [node name="Sprite2D" type="Sprite2D" parent="Walls/Right"]
-texture = ExtResource("2_4lab8")
+texture = ExtResource("2_maliw")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/Right"]
 scale = Vector2(5.84422, 5.84422)
@@ -55,7 +55,7 @@ rotation = 1.5708
 scale = Vector2(1, 6.76)
 
 [node name="Sprite2D" type="Sprite2D" parent="Walls/Up"]
-texture = ExtResource("2_4lab8")
+texture = ExtResource("2_maliw")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/Up"]
 scale = Vector2(5.84422, 5.84422)
@@ -67,7 +67,7 @@ rotation = 1.5708
 scale = Vector2(1, 6.76)
 
 [node name="Sprite2D" type="Sprite2D" parent="Walls/Down"]
-texture = ExtResource("2_4lab8")
+texture = ExtResource("2_maliw")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/Down"]
 scale = Vector2(5.84422, 5.84422)
@@ -79,12 +79,12 @@ position = Vector2(550, 589)
 collision_layer = 128
 collision_mask = 17
 input_pickable = true
-script = ExtResource("1_u8vys")
+script = ExtResource("3_lom3i")
 
 [node name="Sprite2D" type="Sprite2D" parent="Player"]
 position = Vector2(0, -21)
 scale = Vector2(0.203125, 0.5)
-texture = ExtResource("2_4lab8")
+texture = ExtResource("2_maliw")
 
 [node name="CollisionBox" type="CollisionShape2D" parent="Player"]
 shape = SubResource("CircleShape2D_n2hib")
@@ -121,7 +121,7 @@ position = Vector2(0, -21)
 [node name="Arrow" type="Sprite2D" parent="Player/ArrowRotationPoint"]
 position = Vector2(54, 0)
 scale = Vector2(0.659627, 0.659627)
-texture = ExtResource("3_nu7gp")
+texture = ExtResource("4_rcwgo")
 
 [node name="Hitbox" type="Area2D" parent="Player" groups=["player"]]
 collision_layer = 8
@@ -132,7 +132,7 @@ position = Vector2(0, -21)
 scale = Vector2(1.74115, 1.74115)
 shape = SubResource("CapsuleShape2D_hh3ye")
 
-[node name="Enemy" parent="." groups=["dead_enemies"] instance=ExtResource("4_6njj1")]
+[node name="Enemy" parent="." groups=["dead_enemies"] instance=ExtResource("5_x53ig")]
 position = Vector2(179, 317)
 
 [node name="Path2D" type="Path2D" parent="."]
@@ -161,7 +161,7 @@ text = "Score: "
 unique_name_in_owner = true
 position = Vector2(-341, -159)
 scale = Vector2(0.328125, 0.492188)
-texture = ExtResource("2_4lab8")
+texture = ExtResource("2_maliw")
 
 [connection signal="timeout" from="Player/AttackCooldown" to="Player" method="_on_attack_cooldown_timeout"]
 [connection signal="timeout" from="Player/AttackDuration" to="Player" method="_on_attack_duration_timeout"]
