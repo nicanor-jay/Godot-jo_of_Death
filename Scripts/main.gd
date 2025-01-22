@@ -27,7 +27,13 @@ func _on_enemy_spawn_timer_timeout() -> void:
 	spawn_enemy()
 
 func spawn_enemy() -> void:
-	var new_enemy = preload("res://Scenes/melee_enemy.tscn").instantiate()
+	
+	var new_enemy
+	if randf() < 0.5:
+		new_enemy = preload("res://Scenes/melee_enemy.tscn").instantiate()
+	else:
+		new_enemy = preload("res://Scenes/ranged_enemy.tscn").instantiate()
+		
 	$Path2D/PathFollow2D.progress_ratio = randf()
 	
 	while $Path2D/PathFollow2D.global_position.distance_to(player.global_position) < SAVE_ZONE_DISTANCE:

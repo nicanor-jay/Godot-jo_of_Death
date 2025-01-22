@@ -24,6 +24,8 @@ func _ready() -> void:
 	$AttackCooldown.wait_time = DEFAULT_ATTACK_DURATION
 	$AttackCooldown.wait_time = DEFAULT_ATTACK_COOLDOWN
 	$AttackRecovery.wait_time = DEFAULT_RECOVERY_COOLDOWN
+	
+	$Sprite2D.modulate = Color(5,5,5,1)
 
 func _physics_process(delta: float) -> void:
 
@@ -97,6 +99,8 @@ func _on_hitbox_area_entered_exited(area: Area2D) -> void:
 	if area is Projectile:
 		if is_attacking and area.has_method("break_apart"):
 			area.break_apart()
+			enemies_killed_in_dash+=1
+			
 		else:
 			print("Projectile detected")
 			get_tree().paused = true
@@ -113,7 +117,7 @@ func _on_hitbox_area_entered_exited(area: Area2D) -> void:
 		dead_sprite.texture = %DeadSpriteTemplate.texture
 		dead_sprite.scale = %DeadSpriteTemplate.scale
 		dead_sprite.global_position = area.global_position
-		dead_sprite.modulate = Color(1,.9,.9,1)
+		dead_sprite.modulate = Color(1,.5,.5,1)
 		dead_sprite.z_index = -5
 		get_parent().add_child.call_deferred(dead_sprite)
 		add_to_group("dead_enemies")

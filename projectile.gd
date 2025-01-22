@@ -30,7 +30,7 @@ func break_apart():
 		$CollisionShape2D.queue_free()
 		
 		$CPUParticles2D.emitting = true
-		
+		Events.add_to_combo.emit(1)
 
 
 func _on_cpu_particles_2d_finished() -> void:

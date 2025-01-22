@@ -1,11 +1,9 @@
-[gd_scene load_steps=13 format=3 uid="uid://ds7eus4erbjtl"]
+[gd_scene load_steps=11 format=3 uid="uid://ds7eus4erbjtl"]
 
 [ext_resource type="Script" path="res://Scripts/main.gd" id="1_kn0ru"]
 [ext_resource type="Texture2D" uid="uid://c6mwhkj2aj7ff" path="res://Entities/icon.svg" id="2_maliw"]
 [ext_resource type="Script" path="res://Scripts/player.gd" id="3_lom3i"]
 [ext_resource type="Texture2D" uid="uid://b5ib34vkp7jjh" path="res://Entities/arrow.png" id="4_rcwgo"]
-[ext_resource type="PackedScene" uid="uid://b0mjo4dhgje80" path="res://Scenes/melee_enemy.tscn" id="5_x53ig"]
-[ext_resource type="PackedScene" uid="uid://cs3f6grod8yjp" path="res://Scenes/ranged_enemy.tscn" id="6_0t8dq"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_5yf2v"]
 
@@ -90,15 +88,10 @@ shape = SubResource("RectangleShape2D_5yf2v")
 
 [node name="Player" type="CharacterBody2D" parent="." groups=["player"]]
 unique_name_in_owner = true
-position = Vector2(585, 611)
+position = Vector2(360, 344)
 collision_layer = 128
 script = ExtResource("3_lom3i")
 speedCurve = SubResource("Curve_5hr3b")
-
-[node name="Sprite2D" type="Sprite2D" parent="Player"]
-position = Vector2(0, -21)
-scale = Vector2(0.203125, 0.5)
-texture = ExtResource("2_maliw")
 
 [node name="CollisionBox" type="CollisionShape2D" parent="Player"]
 shape = SubResource("CircleShape2D_n2hib")
@@ -143,11 +136,10 @@ position = Vector2(0, -21)
 scale = Vector2(1.74115, 1.74115)
 shape = SubResource("CapsuleShape2D_hh3ye")
 
-[node name="Enemy" parent="." groups=["enemy"] instance=ExtResource("5_x53ig")]
-position = Vector2(-509, 265)
-
-[node name="ranged_enemy" parent="." groups=["enemy"] instance=ExtResource("6_0t8dq")]
-position = Vector2(-317, 296)
+[node name="Sprite2D" type="Sprite2D" parent="Player"]
+position = Vector2(0, -21)
+scale = Vector2(0.203125, 0.5)
+texture = ExtResource("2_maliw")
 
 [node name="Path2D" type="Path2D" parent="."]
 position = Vector2(35, 22)
@@ -159,6 +151,7 @@ rotation = 0.00185185
 
 [node name="EnemySpawnTimer" type="Timer" parent="."]
 wait_time = 0.7
+autostart = true
 
 [node name="ComboTimer" type="Timer" parent="."]
 one_shot = true
@@ -174,6 +167,7 @@ size_flags_horizontal = 8
 size_flags_vertical = 8
 theme_override_font_sizes/font_size = 30
 text = "Score: "
+metadata/_edit_use_anchors_ = true
 
 [node name="ComboLabel" type="Label" parent="UI"]
 offset_left = 583.0
