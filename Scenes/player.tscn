@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://Scripts/player.gd" id="1_ofxxp"]
 [ext_resource type="Texture2D" uid="uid://b5ib34vkp7jjh" path="res://Entities/arrow.png" id="2_xycmf"]
-[ext_resource type="Texture2D" uid="uid://c6mwhkj2aj7ff" path="res://Entities/icon.svg" id="3_uo0pd"]
+[ext_resource type="Texture2D" uid="uid://d1oifkfb6yyrc" path="res://Entities/hero.png" id="3_7iwh6"]
 
 [sub_resource type="Curve" id="Curve_albx3"]
 _data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.75, 0), 0.0, 0.0, 0, 0]
@@ -13,7 +13,8 @@ point_count = 2
 [sub_resource type="CircleShape2D" id="CircleShape2D_bt4oy"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_hh3ye"]
-height = 44.0
+radius = 13.2097
+height = 40.2033
 
 [node name="Player" type="CharacterBody2D" groups=["player"]]
 collision_layer = 128
@@ -21,6 +22,7 @@ script = ExtResource("1_ofxxp")
 speedCurve = SubResource("Curve_albx3")
 
 [node name="CollisionBox" type="CollisionShape2D" parent="."]
+position = Vector2(0, -10)
 shape = SubResource("CircleShape2D_n2hib")
 
 [node name="AttackCooldown" type="Timer" parent="."]
@@ -33,7 +35,7 @@ one_shot = true
 
 [node name="MouseDeadZone" type="Area2D" parent="."]
 position = Vector2(0, -21)
-scale = Vector2(1.01531, 1.01531)
+scale = Vector2(0.838446, 0.838446)
 collision_layer = 32
 collision_mask = 0
 
@@ -55,14 +57,14 @@ collision_layer = 8
 collision_mask = 16
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
-position = Vector2(0, -21)
+position = Vector2(0, -31)
 scale = Vector2(1.74115, 1.74115)
 shape = SubResource("CapsuleShape2D_hh3ye")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-position = Vector2(0, -21)
-scale = Vector2(0.203125, 0.5)
-texture = ExtResource("3_uo0pd")
+position = Vector2(2, -43)
+scale = Vector2(5.38109, 5.38109)
+texture = ExtResource("3_7iwh6")
 
 [node name="DashTracerLine" type="Line2D" parent="."]
 position = Vector2(-360, -344)

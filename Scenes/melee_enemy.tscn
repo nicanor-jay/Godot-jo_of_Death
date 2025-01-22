@@ -1,8 +1,8 @@
 [gd_scene load_steps=7 format=3 uid="uid://b0mjo4dhgje80"]
 
 [ext_resource type="Script" path="res://Scripts/melee_enemy.gd" id="1_n7t5b"]
-[ext_resource type="Texture2D" uid="uid://c6mwhkj2aj7ff" path="res://Entities/icon.svg" id="2_qca2l"]
 [ext_resource type="Script" path="res://Scripts/hitbox.gd" id="3_5harx"]
+[ext_resource type="Texture2D" uid="uid://bak5wgw6f2hoh" path="res://Entities/melee_enemy.png" id="3_m77jv"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_c4lu8"]
 
@@ -17,21 +17,22 @@ collision_layer = 256
 script = ExtResource("1_n7t5b")
 
 [node name="CollisionBox" type="CollisionShape2D" parent="."]
-position = Vector2(0, 16)
+position = Vector2(0, -14)
 scale = Vector2(1.50876, 1.50876)
 shape = SubResource("CircleShape2D_c4lu8")
 
 [node name="AttackDetectionRange" type="Area2D" parent="."]
-position = Vector2(0, 6.29425e-05)
+position = Vector2(0, -28)
 collision_layer = 64
 collision_mask = 128
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="AttackDetectionRange"]
 position = Vector2(0, -3.8147e-06)
-scale = Vector2(8, 8)
+scale = Vector2(11.4442, 11.4442)
 shape = SubResource("CircleShape2D_syix7")
 
 [node name="Hitbox" type="Area2D" parent="." groups=["enemy"]]
+position = Vector2(0, -28)
 collision_layer = 272
 collision_mask = 8
 script = ExtResource("3_5harx")
@@ -41,9 +42,9 @@ scale = Vector2(1.70772, 1.70772)
 shape = SubResource("CapsuleShape2D_6n134")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-position = Vector2(0, -2.98023e-08)
-scale = Vector2(0.328125, 0.492188)
-texture = ExtResource("2_qca2l")
+position = Vector2(2, -43)
+scale = Vector2(5.31, 5.31)
+texture = ExtResource("3_m77jv")
 
 [node name="CPUParticles2D" type="CPUParticles2D" parent="."]
 position = Vector2(-1, 0)

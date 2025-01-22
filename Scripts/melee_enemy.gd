@@ -29,9 +29,14 @@ func _physics_process(delta: float) -> void:
 		velocity = dash_direction * DASH_SPEED
 		move_and_slide()
 		return
+		
+	var direction = global_position.direction_to(player.global_position)
+	if direction.x < 0:
+		$Sprite2D.flip_h = true
+	else:
+		$Sprite2D.flip_h = false
 	
 	if not in_range:
-		var direction = global_position.direction_to(player.global_position)
 		velocity = direction * DEFAULT_SPEED
 		move_and_slide()
 	elif can_attack and in_range:

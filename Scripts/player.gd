@@ -25,7 +25,7 @@ func _ready() -> void:
 	$AttackDuration.wait_time = DEFAULT_ATTACK_DURATION
 	$AttackCooldown.wait_time = DEFAULT_ATTACK_COOLDOWN
 	
-	$Sprite2D.modulate = Color(5,5,5,1)
+	#$Sprite2D.modulate = Color(5,5,5,1)
 
 func _physics_process(delta: float) -> void:
 	if is_dead:
@@ -57,8 +57,14 @@ func _physics_process(delta: float) -> void:
 
 	var mouse_pos = (get_global_mouse_position())
 	$ArrowRotationPoint.look_at(mouse_pos)
+	var direction = global_position.direction_to(mouse_pos)
+	
+	if direction.x < 0:
+		$Sprite2D.flip_h = true
+	else:
+		$Sprite2D.flip_h = false
+	
 	if can_move:
-		var direction = global_position.direction_to(mouse_pos)
 		velocity = direction* DEFAULT_SPEED
 		move_and_slide()
 
