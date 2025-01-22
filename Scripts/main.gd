@@ -34,13 +34,13 @@ func spawn_enemy() -> void:
 	else:
 		new_enemy = preload("res://Scenes/ranged_enemy.tscn").instantiate()
 		
-	$Path2D/PathFollow2D.progress_ratio = randf()
+	$Level/Path2D/PathFollow2D.progress_ratio = randf()
 	
-	while $Path2D/PathFollow2D.global_position.distance_to(player.global_position) < SAVE_ZONE_DISTANCE:
+	while $Level/Path2D/PathFollow2D.global_position.distance_to(player.global_position) < SAVE_ZONE_DISTANCE:
 		print("GETTING NEW SPAWN")
-		$Path2D/PathFollow2D.progress_ratio = randf()
+		$Level/Path2D/PathFollow2D.progress_ratio = randf()
 		
-	new_enemy.global_position = $Path2D/PathFollow2D.global_position
+	new_enemy.global_position = $Level/Path2D/PathFollow2D.global_position
 	add_child(new_enemy)
 	
 #func _draw() -> void:

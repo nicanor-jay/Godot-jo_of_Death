@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://ba2alfoijq2rr"]
+
+[ext_resource type="Script" path="res://dash_trail.gd" id="1_3t70x"]
+
+[node name="DashTrail" type="Line2D"]
+closed = true
+begin_cap_mode = 2
+end_cap_mode = 2
+script = ExtResource("1_3t70x")

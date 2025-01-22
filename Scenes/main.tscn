@@ -1,22 +1,10 @@
-[gd_scene load_steps=11 format=3 uid="uid://ds7eus4erbjtl"]
+[gd_scene load_steps=6 format=3 uid="uid://ds7eus4erbjtl"]
 
 [ext_resource type="Script" path="res://Scripts/main.gd" id="1_kn0ru"]
 [ext_resource type="Texture2D" uid="uid://c6mwhkj2aj7ff" path="res://Entities/icon.svg" id="2_maliw"]
-[ext_resource type="Script" path="res://Scripts/player.gd" id="3_lom3i"]
-[ext_resource type="Texture2D" uid="uid://b5ib34vkp7jjh" path="res://Entities/arrow.png" id="4_rcwgo"]
+[ext_resource type="PackedScene" uid="uid://cvg7r7lb625aw" path="res://Scenes/player.tscn" id="3_k36jb"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_5yf2v"]
-
-[sub_resource type="Curve" id="Curve_albx3"]
-_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.75, 0), 0.0, 0.0, 0, 0]
-point_count = 2
-
-[sub_resource type="CircleShape2D" id="CircleShape2D_n2hib"]
-
-[sub_resource type="CircleShape2D" id="CircleShape2D_bt4oy"]
-
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_hh3ye"]
-height = 44.0
 
 [sub_resource type="Curve2D" id="Curve2D_snvlk"]
 _data = {
@@ -29,7 +17,7 @@ y_sort_enabled = true
 script = ExtResource("1_kn0ru")
 
 [node name="Level" type="Node2D" parent="."]
-position = Vector2(35, 22)
+position = Vector2(32, 21)
 
 [node name="ColorRect" type="ColorRect" parent="Level"]
 z_index = -10
@@ -39,6 +27,7 @@ offset_right = 665.0
 offset_bottom = 680.0
 mouse_filter = 2
 color = Color(0.655974, 0.573156, 0.436145, 1)
+metadata/_edit_use_anchors_ = true
 
 [node name="Left" type="StaticBody2D" parent="Level"]
 position = Vector2(-39, 322)
@@ -86,71 +75,22 @@ texture = ExtResource("2_maliw")
 scale = Vector2(5.84422, 5.84422)
 shape = SubResource("RectangleShape2D_5yf2v")
 
-[node name="Player" type="CharacterBody2D" parent="." groups=["player"]]
-unique_name_in_owner = true
-position = Vector2(360, 344)
-collision_layer = 128
-script = ExtResource("3_lom3i")
-speedCurve = SubResource("Curve_albx3")
-
-[node name="CollisionBox" type="CollisionShape2D" parent="Player"]
-shape = SubResource("CircleShape2D_n2hib")
-
-[node name="AttackCooldown" type="Timer" parent="Player"]
-wait_time = 0.2
-one_shot = true
-
-[node name="AttackDuration" type="Timer" parent="Player"]
-wait_time = 0.15
-one_shot = true
-
-[node name="AttackRecovery" type="Timer" parent="Player"]
-wait_time = 0.1
-one_shot = true
-
-[node name="MouseDeadZone" type="Area2D" parent="Player"]
-position = Vector2(0, -21)
-scale = Vector2(1.01531, 1.01531)
-collision_layer = 32
-collision_mask = 0
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Player/MouseDeadZone"]
-position = Vector2(0, -5.72205e-06)
-scale = Vector2(5.43119, 5.43119)
-shape = SubResource("CircleShape2D_bt4oy")
-
-[node name="ArrowRotationPoint" type="Marker2D" parent="Player"]
-position = Vector2(0, -21)
-
-[node name="Arrow" type="Sprite2D" parent="Player/ArrowRotationPoint"]
-position = Vector2(54, 0)
-scale = Vector2(0.659627, 0.659627)
-texture = ExtResource("4_rcwgo")
-
-[node name="Hitbox" type="Area2D" parent="Player" groups=["player"]]
-collision_layer = 8
-collision_mask = 16
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Player/Hitbox"]
-position = Vector2(0, -21)
-scale = Vector2(1.74115, 1.74115)
-shape = SubResource("CapsuleShape2D_hh3ye")
-
-[node name="Sprite2D" type="Sprite2D" parent="Player"]
-position = Vector2(0, -21)
-scale = Vector2(0.203125, 0.5)
-texture = ExtResource("2_maliw")
-
-[node name="Path2D" type="Path2D" parent="."]
-position = Vector2(35, 22)
+[node name="Path2D" type="Path2D" parent="Level"]
 curve = SubResource("Curve2D_snvlk")
 
-[node name="PathFollow2D" type="PathFollow2D" parent="Path2D"]
+[node name="PathFollow2D" type="PathFollow2D" parent="Level/Path2D"]
 position = Vector2(44, 63)
 rotation = 0.00185185
 
+[node name="Player" parent="." instance=ExtResource("3_k36jb")]
+unique_name_in_owner = true
+position = Vector2(324, 348)
+
+[node name="DashLine" type="Line2D" parent="."]
+
 [node name="EnemySpawnTimer" type="Timer" parent="."]
 wait_time = 0.7
+autostart = true
 
 [node name="ComboTimer" type="Timer" parent="."]
 one_shot = true
@@ -158,10 +98,10 @@ one_shot = true
 [node name="UI" type="CanvasLayer" parent="."]
 
 [node name="ScoreLabel" type="Label" parent="UI"]
-offset_left = 74.0
-offset_top = 51.0
-offset_right = 205.0
-offset_bottom = 108.0
+offset_left = 63.0
+offset_top = 44.0
+offset_right = 194.0
+offset_bottom = 101.0
 size_flags_horizontal = 8
 size_flags_vertical = 8
 theme_override_font_sizes/font_size = 30
@@ -169,10 +109,10 @@ text = "Score: "
 metadata/_edit_use_anchors_ = true
 
 [node name="ComboLabel" type="Label" parent="UI"]
-offset_left = 583.0
-offset_top = 54.0
-offset_right = 714.0
-offset_bottom = 111.0
+offset_left = 572.0
+offset_top = 47.0
+offset_right = 703.0
+offset_bottom = 104.0
 size_flags_horizontal = 8
 size_flags_vertical = 8
 theme_override_font_sizes/font_size = 30
@@ -186,12 +126,5 @@ position = Vector2(-341, -159)
 scale = Vector2(0.328125, 0.492188)
 texture = ExtResource("2_maliw")
 
-[connection signal="timeout" from="Player/AttackCooldown" to="Player" method="_on_attack_cooldown_timeout"]
-[connection signal="timeout" from="Player/AttackDuration" to="Player" method="_on_attack_duration_timeout"]
-[connection signal="timeout" from="Player/AttackRecovery" to="Player" method="_on_attack_recovery_timeout"]
-[connection signal="mouse_entered" from="Player/MouseDeadZone" to="Player" method="_on_mouse_dead_zone_mouse_entered"]
-[connection signal="mouse_exited" from="Player/MouseDeadZone" to="Player" method="_on_mouse_dead_zone_mouse_exited"]
-[connection signal="area_entered" from="Player/Hitbox" to="Player" method="_on_hitbox_area_entered_exited"]
-[connection signal="area_exited" from="Player/Hitbox" to="Player" method="_on_hitbox_area_entered_exited"]
 [connection signal="timeout" from="EnemySpawnTimer" to="." method="_on_enemy_spawn_timer_timeout"]
 [connection signal="timeout" from="ComboTimer" to="." method="_on_combo_timer_timeout"]
