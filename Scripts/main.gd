@@ -29,10 +29,12 @@ func _on_enemy_spawn_timer_timeout() -> void:
 func spawn_enemy() -> void:
 	
 	var new_enemy
-	if randf() < 0.5:
-		new_enemy = preload("res://Scenes/melee_enemy.tscn").instantiate()
-	else:
-		new_enemy = preload("res://Scenes/ranged_enemy.tscn").instantiate()
+	#if randf() < 0.5:
+		#new_enemy = preload("res://Scenes/melee_enemy.tscn").instantiate()
+	#else:
+		#new_enemy = preload("res://Scenes/ranged_enemy.tscn").instantiate()
+		
+	new_enemy = preload("res://Scenes/melee_enemy.tscn").instantiate()	
 		
 	$Level/Path2D/PathFollow2D.progress_ratio = randf()
 	

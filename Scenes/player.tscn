@@ -121,7 +121,7 @@ position = Vector2(0, -31)
 scale = Vector2(1.74115, 1.74115)
 shape = SubResource("CapsuleShape2D_hh3ye")
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." groups=["dead_enemies"]]
 position = Vector2(2, -43)
 scale = Vector2(5.381, 5.381)
 sprite_frames = SubResource("SpriteFrames_frvbp")

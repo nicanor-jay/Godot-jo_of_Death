@@ -2,6 +2,7 @@ extends CharacterBody2D
 class_name Enemy
 
 @onready var player = get_node("/root/Main/Player")
+@onready var deadSpriteTemp = get_node("/root/Main/DeadMeleeSprite")
 
 const DEFAULT_SPEED = 150.0
 const DASH_SPEED = 900
@@ -13,15 +14,17 @@ var can_attack = true
 var is_attacking = false
 var is_charging = false
 var is_cooling_down = false
+var is_dead = false
 
 func get_is_attacking() -> bool:
 	return is_attacking
 
 func _ready() -> void:
 	$Hitbox.add_to_group("enemy")
+	$SmokeAppear.emitting = true
 
 func _physics_process(delta: float) -> void:
-	if is_charging or is_cooling_down:
+	if is_charging or is_cooling_down or is_dead:
 		return
 	elif is_attacking:
 		# Move toward player
@@ -48,6 +51,12 @@ func _physics_process(delta: float) -> void:
 		$AnimatedSprite2D.play("idle")
 		
 
+func die():
+	is_dead = true
+	$DeathParticles.emitting = true
+	$AnimatedSprite2D.play("death")
+
+
 func _on_area_2d_body_entered(body: Node2D) -> void:
 	if body is Player:
 		in_range = true
@@ -59,16 +68,17 @@ func _on_area_2d_body_exited(body: Node2D) -> void:
 
 
 func _on_attack_charge_up_timeout() -> void:
-	print("attacking")
-	dash_direction = global_position.direction_to(player.global_position)
-	if dash_direction.x < 0:
-		$AnimatedSprite2D.flip_h = true
-	else:
-		$AnimatedSprite2D.flip_h = false
-	
-	is_charging = false
-	is_attacking = true
-	$AttackDuration.start()
+	if not is_dead:
+		print("attacking")
+		dash_direction = global_position.direction_to(player.global_position)
+		if dash_direction.x < 0:
+			$AnimatedSprite2D.flip_h = true
+		else:
+			$AnimatedSprite2D.flip_h = false
+		
+		is_charging = false
+		is_attacking = true
+		$AttackDuration.start()
 
 
 func _on_attack_duration_timeout() -> void:
@@ -82,4 +92,17 @@ func _on_attack_duration_timeout() -> void:
 func _on_attack_cooldown_timeout() -> void:
 	can_attack = true
 	is_cooling_down = false
+	
+func _on_animated_sprite_2d_animation_finished() -> void:
+	
+	var dead_sprite = Sprite2D.new()
+	dead_sprite.texture = deadSpriteTemp.texture
+	dead_sprite.scale = deadSpriteTemp.scale
+	dead_sprite.global_position = $AnimatedSprite2D.global_position
+	dead_sprite.z_index = -5
+	dead_sprite.region_enabled = true
+	dead_sprite.region_rect = Rect2(Vector2(20, 48), Vector2(16,16))
+	dead_sprite.add_to_group("dead_enemies")
+	get_parent().add_child.call_deferred(dead_sprite)
+	queue_free()
 	

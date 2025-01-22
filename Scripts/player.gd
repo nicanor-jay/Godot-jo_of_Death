@@ -7,7 +7,7 @@ var dash_direction: Vector2
 
 const DEFAULT_SPEED = 300.0
 const DASH_SPEED = 1600
-const DEFAULT_ATTACK_COOLDOWN = 1.5
+const DEFAULT_ATTACK_COOLDOWN = 1.0
 const DEFAULT_ATTACK_DURATION = 0.3
 const MULTI_KILL_MODIFIER = 1.5
 
@@ -84,7 +84,7 @@ func _on_attack_duration_timeout() -> void:
 	if enemies_killed_in_dash > 0:
 		Events.add_to_score.emit(10 * enemies_killed_in_dash  * enemies_killed_in_dash)
 		Events.add_to_combo.emit(enemies_killed_in_dash)
-		$AttackCooldown.wait_time = DEFAULT_ATTACK_COOLDOWN / 4
+		$AttackCooldown.wait_time = DEFAULT_ATTACK_COOLDOWN / 5
 	else:
 		$AttackCooldown.wait_time = DEFAULT_ATTACK_COOLDOWN
 	
@@ -122,22 +122,13 @@ func _on_hitbox_area_entered_exited(area: Area2D) -> void:
 	var enemy = area.get_parent()
 	if is_attacking:
 		# Player always kills enemy if attacking
-		enemies_killed_in_dash+=1
+		enemies_killed_in_dash+=1		
+		enemy.die()
 		
-		# Add enemy as dead sprite before freeing
-		var dead_sprite = Sprite2D.new()
-		dead_sprite.texture = %DeadSpriteTemplate.texture
-		dead_sprite.scale = %DeadSpriteTemplate.scale
-		dead_sprite.global_position = area.global_position
-		dead_sprite.modulate = Color(1,.5,.5,1)
-		dead_sprite.z_index = -5
-		get_parent().add_child.call_deferred(dead_sprite)
-		add_to_group("dead_enemies")
-		
-		enemy.queue_free()
-		pass
-	elif enemy.has_method("get_is_attacking"):
+	elif enemy.has_method("get_is_attacking"):\
 		if enemy.get_is_attacking():
 			#print("DEATH")
+			for node in get_tree().get_nodes_in_group("dead_enemies"):
+				node.queue_free()
 			get_tree().paused = true
 			queue_free()			

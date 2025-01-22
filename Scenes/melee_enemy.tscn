@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://b0mjo4dhgje80"]
+[gd_scene load_steps=20 format=3 uid="uid://b0mjo4dhgje80"]
 
 [ext_resource type="Script" path="res://Scripts/melee_enemy.gd" id="1_n7t5b"]
 [ext_resource type="Script" path="res://Scripts/hitbox.gd" id="3_5harx"]
@@ -23,6 +23,14 @@ region = Rect2(0, 32, 16, 16)
 [sub_resource type="AtlasTexture" id="AtlasTexture_0i4a8"]
 atlas = ExtResource("3_m77jv")
 region = Rect2(16, 32, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1jkgj"]
+atlas = ExtResource("3_m77jv")
+region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dll4l"]
+atlas = ExtResource("3_m77jv")
+region = Rect2(32, 0, 16, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_wif4e"]
 atlas = ExtResource("3_m77jv")
@@ -67,6 +75,17 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
+"texture": SubResource("AtlasTexture_1jkgj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dll4l")
+}],
+"loop": false,
+"name": &"death",
+"speed": 1.0
+}, {
+"frames": [{
+"duration": 1.0,
 "texture": SubResource("AtlasTexture_wif4e")
 }],
 "loop": true,
@@ -90,6 +109,14 @@ animations = [{
 "name": &"run",
 "speed": 5.0
 }]
+
+[sub_resource type="Curve" id="Curve_i43kk"]
+_data = [Vector2(0.662921, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), -3.09707, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="Gradient" id="Gradient_urubv"]
+offsets = PackedFloat32Array(0, 0.78)
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
 
 [node name="melee_enemy" type="CharacterBody2D"]
 collision_layer = 256
@@ -120,27 +147,6 @@ script = ExtResource("3_5harx")
 scale = Vector2(1.70772, 1.70772)
 shape = SubResource("CapsuleShape2D_6n134")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
-visible = false
-position = Vector2(2, -43)
-scale = Vector2(5.31, 5.31)
-texture = ExtResource("3_m77jv")
-
-[node name="CPUParticles2D" type="CPUParticles2D" parent="."]
-position = Vector2(-1, 0)
-emitting = false
-amount = 30
-lifetime = 0.5
-one_shot = true
-direction = Vector2(0, -1)
-spread = 180.0
-gravity = Vector2(0, -980)
-initial_velocity_min = 15.0
-initial_velocity_max = 90.0
-scale_amount_min = 2.0
-scale_amount_max = 5.0
-color = Color(0.929366, 0, 0.15816, 1)
-
 [node name="AttackChargeUp" type="Timer" parent="."]
 one_shot = true
 
@@ -155,10 +161,44 @@ one_shot = true
 position = Vector2(2, -43)
 scale = Vector2(5.31, 5.31)
 sprite_frames = SubResource("SpriteFrames_f7ohu")
-animation = &"charge"
+animation = &"idle"
+
+[node name="DeathParticles" type="CPUParticles2D" parent="."]
+position = Vector2(2, -28)
+emitting = false
+amount = 40
+lifetime = 0.5
+one_shot = true
+direction = Vector2(0, -1)
+spread = 90.0
+gravity = Vector2(0, -980)
+initial_velocity_min = 15.0
+initial_velocity_max = 90.0
+scale_amount_max = 10.0
+scale_amount_curve = SubResource("Curve_i43kk")
+color = Color(0.929366, 0, 0.15816, 1)
+
+[node name="SmokeAppear" type="CPUParticles2D" parent="."]
+position = Vector2(-3, -28)
+emitting = false
+amount = 5
+lifetime = 0.8
+one_shot = true
+explosiveness = 1.0
+direction = Vector2(0, 0)
+spread = 180.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 50.0
+initial_velocity_max = 50.0
+angle_min = 180.0
+angle_max = 180.0
+scale_amount_min = 20.0
+scale_amount_max = 50.0
+color_ramp = SubResource("Gradient_urubv")
 
 [connection signal="body_entered" from="AttackDetectionRange" to="." method="_on_area_2d_body_entered"]
 [connection signal="body_exited" from="AttackDetectionRange" to="." method="_on_area_2d_body_exited"]
 [connection signal="timeout" from="AttackChargeUp" to="." method="_on_attack_charge_up_timeout"]
 [connection signal="timeout" from="AttackCooldown" to="." method="_on_attack_cooldown_timeout"]
 [connection signal="timeout" from="AttackDuration" to="." method="_on_attack_duration_timeout"]
+[connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_finished"]

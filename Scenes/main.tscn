@@ -1,9 +1,10 @@
-[gd_scene load_steps=7 format=3 uid="uid://ds7eus4erbjtl"]
+[gd_scene load_steps=8 format=3 uid="uid://ds7eus4erbjtl"]
 
 [ext_resource type="Script" path="res://Scripts/main.gd" id="1_kn0ru"]
 [ext_resource type="Texture2D" uid="uid://c6mwhkj2aj7ff" path="res://Entities/icon.svg" id="2_maliw"]
 [ext_resource type="PackedScene" uid="uid://cvg7r7lb625aw" path="res://Scenes/player.tscn" id="3_k36jb"]
 [ext_resource type="PackedScene" uid="uid://b0mjo4dhgje80" path="res://Scenes/melee_enemy.tscn" id="4_m5dca"]
+[ext_resource type="Texture2D" uid="uid://bak5wgw6f2hoh" path="res://Entities/melee_enemy.png" id="5_wy88h"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_5yf2v"]
 
@@ -89,6 +90,7 @@ position = Vector2(324, 348)
 
 [node name="EnemySpawnTimer" type="Timer" parent="."]
 wait_time = 0.7
+autostart = true
 
 [node name="melee_enemy" parent="EnemySpawnTimer" instance=ExtResource("4_m5dca")]
 position = Vector2(221, 169)
@@ -126,6 +128,14 @@ z_as_relative = false
 position = Vector2(-341, -159)
 scale = Vector2(0.328125, 0.492188)
 texture = ExtResource("2_maliw")
+
+[node name="DeadMeleeSprite" type="Sprite2D" parent="."]
+unique_name_in_owner = true
+position = Vector2(-277, -152)
+scale = Vector2(5.31, 5.31)
+texture = ExtResource("5_wy88h")
+region_enabled = true
+region_rect = Rect2(20, 48, 16, 16)
 
 [connection signal="timeout" from="EnemySpawnTimer" to="." method="_on_enemy_spawn_timer_timeout"]
 [connection signal="timeout" from="ComboTimer" to="." method="_on_combo_timer_timeout"]
