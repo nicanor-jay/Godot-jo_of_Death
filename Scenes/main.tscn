@@ -7,8 +7,8 @@
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_5yf2v"]
 
-[sub_resource type="Curve" id="Curve_5hr3b"]
-_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), -2.3663, 0.0, 0, 0]
+[sub_resource type="Curve" id="Curve_albx3"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.75, 0), 0.0, 0.0, 0, 0]
 point_count = 2
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_n2hib"]
@@ -91,7 +91,7 @@ unique_name_in_owner = true
 position = Vector2(360, 344)
 collision_layer = 128
 script = ExtResource("3_lom3i")
-speedCurve = SubResource("Curve_5hr3b")
+speedCurve = SubResource("Curve_albx3")
 
 [node name="CollisionBox" type="CollisionShape2D" parent="Player"]
 shape = SubResource("CircleShape2D_n2hib")
@@ -151,7 +151,6 @@ rotation = 0.00185185
 
 [node name="EnemySpawnTimer" type="Timer" parent="."]
 wait_time = 0.7
-autostart = true
 
 [node name="ComboTimer" type="Timer" parent="."]
 one_shot = true
@@ -178,6 +177,7 @@ size_flags_horizontal = 8
 size_flags_vertical = 8
 theme_override_font_sizes/font_size = 30
 text = "x1"
+metadata/_edit_use_anchors_ = true
 
 [node name="DeadSpriteTemplate" type="Sprite2D" parent="."]
 unique_name_in_owner = true

@@ -6,24 +6,24 @@ var dash_direction: Vector2
 @export var speedCurve: Curve
 
 const DEFAULT_SPEED = 300.0
-const DASH_SPEED = 1500
-const DEFAULT_ATTACK_COOLDOWN = 2.0
-const DEFAULT_RECOVERY_COOLDOWN = 0.2
-const DEFAULT_ATTACK_DURATION = 0.15
+const DASH_SPEED = 2000
+const DEFAULT_ATTACK_COOLDOWN = 1.5
+#const DEFAULT_RECOVERY_COOLDOWN = 0.2
+const DEFAULT_ATTACK_DURATION = 0.3
 const MULTI_KILL_MODIFIER = 1.5
 
 var can_move = true
 var can_attack = true
 var is_attacking = false
-var is_recovering = false
+#var is_recovering = false
 var is_dead = false
 var enemies_killed_in_dash = 0
 
 func _ready() -> void:
 	$Hitbox.add_to_group("player")
-	$AttackCooldown.wait_time = DEFAULT_ATTACK_DURATION
+	$AttackDuration.wait_time = DEFAULT_ATTACK_DURATION
 	$AttackCooldown.wait_time = DEFAULT_ATTACK_COOLDOWN
-	$AttackRecovery.wait_time = DEFAULT_RECOVERY_COOLDOWN
+	#$AttackRecovery.wait_time = DEFAULT_RECOVERY_COOLDOWN
 	
 	$Sprite2D.modulate = Color(5,5,5,1)
 
@@ -33,12 +33,16 @@ func _physics_process(delta: float) -> void:
 		# play death animation
 		pass
 		
-	if is_recovering:
-		return
+	#if is_recovering:
+		#return
 	
 	if is_attacking:
-		velocity = dash_direction* DASH_SPEED
+		#velocity = dash_direction* DASH_SPEED
+		var time_ratio = ($AttackDuration.wait_time - $AttackDuration.time_left) / $AttackDuration.wait_time
+		var finalSpeed: float = DASH_SPEED * speedCurve.sample(time_ratio)
+		velocity = dash_direction * finalSpeed
 		move_and_slide()
+		return
 
 	# Handle jump.
 	if Input.is_action_just_pressed("attack") && can_attack:
@@ -65,7 +69,7 @@ func _physics_process(delta: float) -> void:
 func _on_attack_duration_timeout() -> void:
 	print("attack finished")
 	is_attacking = false
-	is_recovering = true
+	#is_recovering = true
 	
 	if enemies_killed_in_dash > 0:
 		Events.add_to_score.emit(10 * enemies_killed_in_dash  * enemies_killed_in_dash)
@@ -76,7 +80,7 @@ func _on_attack_duration_timeout() -> void:
 	
 	enemies_killed_in_dash = 0
 	$AttackCooldown.start()	
-	$AttackRecovery.start()
+	#$AttackRecovery.start()
 
 
 func _on_attack_cooldown_timeout() -> void:
@@ -132,4 +136,5 @@ func _on_hitbox_area_entered_exited(area: Area2D) -> void:
 
 
 func _on_attack_recovery_timeout() -> void:
-	is_recovering = false
+	#is_recovering = false
+	pass
