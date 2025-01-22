@@ -86,8 +86,6 @@ rotation = 0.00185185
 unique_name_in_owner = true
 position = Vector2(324, 348)
 
-[node name="DashLine" type="Line2D" parent="."]
-
 [node name="EnemySpawnTimer" type="Timer" parent="."]
 wait_time = 0.7
 autostart = true

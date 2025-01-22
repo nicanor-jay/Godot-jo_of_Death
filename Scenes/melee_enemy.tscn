@@ -16,11 +16,6 @@ height = 40.9903
 collision_layer = 256
 script = ExtResource("1_n7t5b")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
-position = Vector2(0, -2.98023e-08)
-scale = Vector2(0.328125, 0.492188)
-texture = ExtResource("2_qca2l")
-
 [node name="CollisionBox" type="CollisionShape2D" parent="."]
 position = Vector2(0, 16)
 scale = Vector2(1.50876, 1.50876)
@@ -44,6 +39,26 @@ script = ExtResource("3_5harx")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
 scale = Vector2(1.70772, 1.70772)
 shape = SubResource("CapsuleShape2D_6n134")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(0, -2.98023e-08)
+scale = Vector2(0.328125, 0.492188)
+texture = ExtResource("2_qca2l")
+
+[node name="CPUParticles2D" type="CPUParticles2D" parent="."]
+position = Vector2(-1, 0)
+emitting = false
+amount = 30
+lifetime = 0.5
+one_shot = true
+direction = Vector2(0, -1)
+spread = 180.0
+gravity = Vector2(0, -980)
+initial_velocity_min = 15.0
+initial_velocity_max = 90.0
+scale_amount_min = 2.0
+scale_amount_max = 5.0
+color = Color(0.929366, 0, 0.15816, 1)
 
 [node name="AttackChargeUp" type="Timer" parent="."]
 one_shot = true
