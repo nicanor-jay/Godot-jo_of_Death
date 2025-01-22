@@ -15,15 +15,21 @@ var is_attacking = false
 var is_charging = false
 var is_cooling_down = false
 var is_dead = false
+var is_player_dead = false
 
 func get_is_attacking() -> bool:
 	return is_attacking
 
 func _ready() -> void:
-	$Hitbox.add_to_group("enemy")
+	add_to_group("enemy")
 	$SmokeAppear.emitting = true
+	Events.player_death.connect(_on_event_player_death)
 
 func _physics_process(delta: float) -> void:
+	if player == null:
+		#$AnimatedSprite2D.play("idle")
+		return
+		
 	if is_charging or is_cooling_down or is_dead:
 		return
 	elif is_attacking:
@@ -52,20 +58,19 @@ func _physics_process(delta: float) -> void:
 		
 
 func die():
-	is_dead = true
-	$DeathParticles.emitting = true
-	$AnimatedSprite2D.play("death")
+	if is_dead == false:
+		is_dead = true
+		$DeathParticles.emitting = true
+		$AnimatedSprite2D.play("death")
 
 
 func _on_area_2d_body_entered(body: Node2D) -> void:
 	if body is Player:
 		in_range = true
 
-
 func _on_area_2d_body_exited(body: Node2D) -> void:
 	if body is Player:
 		in_range = false
-
 
 func _on_attack_charge_up_timeout() -> void:
 	if not is_dead:
@@ -80,14 +85,12 @@ func _on_attack_charge_up_timeout() -> void:
 		is_attacking = true
 		$AttackDuration.start()
 
-
 func _on_attack_duration_timeout() -> void:
 	print("cooling down\n")
 	is_attacking = false
 	can_attack = false
 	is_cooling_down = true
 	$AttackCooldown.start()
-
 
 func _on_attack_cooldown_timeout() -> void:
 	can_attack = true
@@ -106,3 +109,8 @@ func _on_animated_sprite_2d_animation_finished() -> void:
 	get_parent().add_child.call_deferred(dead_sprite)
 	queue_free()
 	
+func _on_event_player_death():
+	is_player_dead = true
+	$AttackChargeUp.stop()
+	$AttackCooldown.stop()
+	$AttackDuration.stop()

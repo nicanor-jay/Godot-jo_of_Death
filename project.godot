@@ -28,6 +28,7 @@ window/size/viewport_height=700
 
 enemy=""
 dead_enemies=""
+player=""
 
 [input]
 

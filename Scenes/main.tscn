@@ -1,9 +1,7 @@
-[gd_scene load_steps=8 format=3 uid="uid://ds7eus4erbjtl"]
+[gd_scene load_steps=6 format=3 uid="uid://ds7eus4erbjtl"]
 
 [ext_resource type="Script" path="res://Scripts/main.gd" id="1_kn0ru"]
 [ext_resource type="Texture2D" uid="uid://c6mwhkj2aj7ff" path="res://Entities/icon.svg" id="2_maliw"]
-[ext_resource type="PackedScene" uid="uid://cvg7r7lb625aw" path="res://Scenes/player.tscn" id="3_k36jb"]
-[ext_resource type="PackedScene" uid="uid://b0mjo4dhgje80" path="res://Scenes/melee_enemy.tscn" id="4_m5dca"]
 [ext_resource type="Texture2D" uid="uid://bak5wgw6f2hoh" path="res://Entities/melee_enemy.png" id="5_wy88h"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_5yf2v"]
@@ -84,43 +82,14 @@ curve = SubResource("Curve2D_snvlk")
 position = Vector2(44, 63)
 rotation = 0.00185185
 
-[node name="Player" parent="." instance=ExtResource("3_k36jb")]
-unique_name_in_owner = true
-position = Vector2(324, 348)
+[node name="PlayerSpawn" type="Marker2D" parent="Level"]
+position = Vector2(323, 316)
 
 [node name="EnemySpawnTimer" type="Timer" parent="."]
 wait_time = 0.7
-autostart = true
-
-[node name="melee_enemy" parent="EnemySpawnTimer" instance=ExtResource("4_m5dca")]
-position = Vector2(221, 169)
 
 [node name="ComboTimer" type="Timer" parent="."]
 one_shot = true
-
-[node name="UI" type="CanvasLayer" parent="."]
-
-[node name="ScoreLabel" type="Label" parent="UI"]
-offset_left = 63.0
-offset_top = 44.0
-offset_right = 194.0
-offset_bottom = 101.0
-size_flags_horizontal = 8
-size_flags_vertical = 8
-theme_override_font_sizes/font_size = 30
-text = "Score: "
-metadata/_edit_use_anchors_ = true
-
-[node name="ComboLabel" type="Label" parent="UI"]
-offset_left = 572.0
-offset_top = 47.0
-offset_right = 703.0
-offset_bottom = 104.0
-size_flags_horizontal = 8
-size_flags_vertical = 8
-theme_override_font_sizes/font_size = 30
-text = "x1"
-metadata/_edit_use_anchors_ = true
 
 [node name="DeadSpriteTemplate" type="Sprite2D" parent="."]
 unique_name_in_owner = true
@@ -136,6 +105,52 @@ scale = Vector2(5.31, 5.31)
 texture = ExtResource("5_wy88h")
 region_enabled = true
 region_rect = Rect2(20, 48, 16, 16)
+
+[node name="StartGameUI" type="CanvasGroup" parent="."]
+position = Vector2(6, 23)
+
+[node name="Label" type="Label" parent="StartGameUI"]
+offset_left = 201.0
+offset_top = 265.0
+offset_right = 502.0
+offset_bottom = 378.0
+size_flags_horizontal = 8
+theme_override_font_sizes/font_size = 40
+text = "Dojo Of Demise"
+
+[node name="Label2" type="Label" parent="StartGameUI"]
+offset_left = 283.0
+offset_top = 322.0
+offset_right = 584.0
+offset_bottom = 435.0
+size_flags_horizontal = 8
+theme_override_font_sizes/font_size = 20
+text = "Click to start"
+
+[node name="MidGameUI" type="CanvasGroup" parent="."]
+visible = false
+
+[node name="ScoreLabel" type="Label" parent="MidGameUI"]
+offset_left = 63.0
+offset_top = 44.0
+offset_right = 194.0
+offset_bottom = 101.0
+size_flags_horizontal = 8
+size_flags_vertical = 8
+theme_override_font_sizes/font_size = 30
+text = "Score: "
+metadata/_edit_use_anchors_ = true
+
+[node name="ComboLabel" type="Label" parent="MidGameUI"]
+offset_left = 572.0
+offset_top = 47.0
+offset_right = 703.0
+offset_bottom = 104.0
+size_flags_horizontal = 8
+size_flags_vertical = 8
+theme_override_font_sizes/font_size = 30
+text = "x1"
+metadata/_edit_use_anchors_ = true
 
 [connection signal="timeout" from="EnemySpawnTimer" to="." method="_on_enemy_spawn_timer_timeout"]
 [connection signal="timeout" from="ComboTimer" to="." method="_on_combo_timer_timeout"]

@@ -11,6 +11,9 @@ const DEFAULT_ATTACK_COOLDOWN = 1.0
 const DEFAULT_ATTACK_DURATION = 0.3
 const MULTI_KILL_MODIFIER = 1.5
 
+var spawnTimer: Timer
+var is_spawning = true
+
 var can_move = true
 var can_attack = true
 var is_attacking = false
@@ -24,10 +27,23 @@ func _ready() -> void:
 	$Hitbox.add_to_group("player")
 	$AttackDuration.wait_time = DEFAULT_ATTACK_DURATION
 	$AttackCooldown.wait_time = DEFAULT_ATTACK_COOLDOWN
+	$SmokeAppear.emitting = true
 	
-	#$Sprite2D.modulate = Color(5,5,5,1)
-
+	spawnTimer = Timer.new()
+	spawnTimer.wait_time = 0.1
+	spawnTimer.one_shot = true
+	spawnTimer.connect("timeout", _on_timeout)
+	add_child(spawnTimer)
+	spawnTimer.start()	
+	
+func _on_timeout():
+	is_spawning = false
+	spawnTimer.queue_free()
+	
+	
 func _physics_process(delta: float) -> void:
+	if is_spawning:
+		return
 	if is_dead:
 		# play death animation
 		pass
@@ -103,7 +119,6 @@ func _on_mouse_dead_zone_mouse_entered() -> void:
 func _on_mouse_dead_zone_mouse_exited() -> void:
 		can_move = true
 
-
 func _on_hitbox_area_entered_exited(area: Area2D) -> void:
 	if not area.is_in_group("enemy"):
 		return
@@ -120,7 +135,7 @@ func _on_hitbox_area_entered_exited(area: Area2D) -> void:
 		return
 	## Area is a EnemyHitbox
 	var enemy = area.get_parent()
-	if is_attacking:
+	if is_attacking and not enemy.is_dead:
 		# Player always kills enemy if attacking
 		enemies_killed_in_dash+=1		
 		enemy.die()
@@ -128,7 +143,5 @@ func _on_hitbox_area_entered_exited(area: Area2D) -> void:
 	elif enemy.has_method("get_is_attacking"):\
 		if enemy.get_is_attacking():
 			#print("DEATH")
-			for node in get_tree().get_nodes_in_group("dead_enemies"):
-				node.queue_free()
-			get_tree().paused = true
+			Events.player_death.emit()
 			queue_free()			

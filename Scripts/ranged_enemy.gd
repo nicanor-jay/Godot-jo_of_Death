@@ -1,6 +1,7 @@
 extends CharacterBody2D
 
 @onready var player = get_node("/root/Main/Player")
+const PROJECTILE = preload("res://Scenes/projectile.tscn")
 
 const DEFAULT_SPEED = 150.0
 
@@ -33,7 +34,6 @@ func _physics_process(delta: float) -> void:
 	move_and_slide()
 
 func shoot():
-	const PROJECTILE = preload("res://Scenes/projectile.tscn")
 	var new_bullet = PROJECTILE.instantiate()
 	new_bullet.global_position = global_position
 	new_bullet.look_at(player.global_position)
