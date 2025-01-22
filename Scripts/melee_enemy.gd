@@ -22,27 +22,30 @@ func _ready() -> void:
 
 func _physics_process(delta: float) -> void:
 	if is_charging or is_cooling_down:
-		# Stay still until charging over
 		return
 	elif is_attacking:
 		# Move toward player
 		velocity = dash_direction * DASH_SPEED
+		$AnimatedSprite2D.play("attack")
 		move_and_slide()
 		return
 		
 	var direction = global_position.direction_to(player.global_position)
 	if direction.x < 0:
-		$Sprite2D.flip_h = true
+		$AnimatedSprite2D.flip_h = true
 	else:
-		$Sprite2D.flip_h = false
+		$AnimatedSprite2D.flip_h = false
 	
 	if not in_range:
 		velocity = direction * DEFAULT_SPEED
+		$AnimatedSprite2D.play("run")
 		move_and_slide()
 	elif can_attack and in_range:
-		print("charging")
 		is_charging = true
 		$AttackChargeUp.start()
+		$AnimatedSprite2D.play("charge")
+	else:
+		$AnimatedSprite2D.play("idle")
 		
 
 func _on_area_2d_body_entered(body: Node2D) -> void:
@@ -58,6 +61,11 @@ func _on_area_2d_body_exited(body: Node2D) -> void:
 func _on_attack_charge_up_timeout() -> void:
 	print("attacking")
 	dash_direction = global_position.direction_to(player.global_position)
+	if dash_direction.x < 0:
+		$AnimatedSprite2D.flip_h = true
+	else:
+		$AnimatedSprite2D.flip_h = false
+	
 	is_charging = false
 	is_attacking = true
 	$AttackDuration.start()

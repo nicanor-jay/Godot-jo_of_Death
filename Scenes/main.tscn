@@ -1,8 +1,9 @@
-[gd_scene load_steps=6 format=3 uid="uid://ds7eus4erbjtl"]
+[gd_scene load_steps=7 format=3 uid="uid://ds7eus4erbjtl"]
 
 [ext_resource type="Script" path="res://Scripts/main.gd" id="1_kn0ru"]
 [ext_resource type="Texture2D" uid="uid://c6mwhkj2aj7ff" path="res://Entities/icon.svg" id="2_maliw"]
 [ext_resource type="PackedScene" uid="uid://cvg7r7lb625aw" path="res://Scenes/player.tscn" id="3_k36jb"]
+[ext_resource type="PackedScene" uid="uid://b0mjo4dhgje80" path="res://Scenes/melee_enemy.tscn" id="4_m5dca"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_5yf2v"]
 
@@ -88,7 +89,9 @@ position = Vector2(324, 348)
 
 [node name="EnemySpawnTimer" type="Timer" parent="."]
 wait_time = 0.7
-autostart = true
+
+[node name="melee_enemy" parent="EnemySpawnTimer" instance=ExtResource("4_m5dca")]
+position = Vector2(221, 169)
 
 [node name="ComboTimer" type="Timer" parent="."]
 one_shot = true

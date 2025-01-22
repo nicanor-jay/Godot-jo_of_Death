@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://b0mjo4dhgje80"]
+[gd_scene load_steps=16 format=3 uid="uid://b0mjo4dhgje80"]
 
 [ext_resource type="Script" path="res://Scripts/melee_enemy.gd" id="1_n7t5b"]
 [ext_resource type="Script" path="res://Scripts/hitbox.gd" id="3_5harx"]
@@ -11,6 +11,85 @@
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_6n134"]
 radius = 14.0538
 height = 40.9903
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_n0i5v"]
+atlas = ExtResource("3_m77jv")
+region = Rect2(0, 48, 20, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_owa0e"]
+atlas = ExtResource("3_m77jv")
+region = Rect2(0, 32, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0i4a8"]
+atlas = ExtResource("3_m77jv")
+region = Rect2(16, 32, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wif4e"]
+atlas = ExtResource("3_m77jv")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qfat5"]
+atlas = ExtResource("3_m77jv")
+region = Rect2(0, 16, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_iobq4"]
+atlas = ExtResource("3_m77jv")
+region = Rect2(16, 16, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_spd71"]
+atlas = ExtResource("3_m77jv")
+region = Rect2(32, 16, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6u68b"]
+atlas = ExtResource("3_m77jv")
+region = Rect2(48, 16, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_f7ohu"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_n0i5v")
+}],
+"loop": true,
+"name": &"attack",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_owa0e")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0i4a8")
+}],
+"loop": true,
+"name": &"charge",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wif4e")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qfat5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_iobq4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_spd71")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6u68b")
+}],
+"loop": true,
+"name": &"run",
+"speed": 5.0
+}]
 
 [node name="melee_enemy" type="CharacterBody2D"]
 collision_layer = 256
@@ -42,6 +121,7 @@ scale = Vector2(1.70772, 1.70772)
 shape = SubResource("CapsuleShape2D_6n134")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+visible = false
 position = Vector2(2, -43)
 scale = Vector2(5.31, 5.31)
 texture = ExtResource("3_m77jv")
@@ -70,6 +150,12 @@ one_shot = true
 [node name="AttackDuration" type="Timer" parent="."]
 wait_time = 0.15
 one_shot = true
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(2, -43)
+scale = Vector2(5.31, 5.31)
+sprite_frames = SubResource("SpriteFrames_f7ohu")
+animation = &"charge"
 
 [connection signal="body_entered" from="AttackDetectionRange" to="." method="_on_area_2d_body_entered"]
 [connection signal="body_exited" from="AttackDetectionRange" to="." method="_on_area_2d_body_exited"]

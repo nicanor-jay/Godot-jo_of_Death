@@ -33,8 +33,8 @@ func _physics_process(delta: float) -> void:
 		pass
 	
 	if is_attacking:
-		dash_trail.add_point(position)
-		
+		$AnimatedSprite2D.play("attack")
+		dash_trail.add_point($DashMarker.global_position)
 		var time_ratio = ($AttackDuration.wait_time - $AttackDuration.time_left) / $AttackDuration.wait_time
 		var finalSpeed: float = DASH_SPEED * speedCurve.sample(time_ratio)
 		velocity = dash_direction * finalSpeed
@@ -57,20 +57,23 @@ func _physics_process(delta: float) -> void:
 
 	var mouse_pos = (get_global_mouse_position())
 	$ArrowRotationPoint.look_at(mouse_pos)
-	var direction = global_position.direction_to(mouse_pos)
+	var direction = global_position.direction_to(mouse_pos)		
 	
 	if direction.x < 0:
-		$Sprite2D.flip_h = true
+		$AnimatedSprite2D.flip_h = true
 	else:
-		$Sprite2D.flip_h = false
+		$AnimatedSprite2D.flip_h = false
 	
 	if can_move:
-		velocity = direction* DEFAULT_SPEED
+		velocity = direction* DEFAULT_SPEED	
+		$AnimatedSprite2D.play("run")	
 		move_and_slide()
+	else:
+		$AnimatedSprite2D.play("idle")
 
 func start_dash():
 	dash_trail = dash_trail_scene.instantiate()
-	dash_trail.init_line(global_position, Color(1,1,1,1), 10.0)
+	dash_trail.init_line($DashMarker.global_position, Color(1,1,1,1), 10.0)
 	get_parent().add_child(dash_trail)
 	
 
@@ -95,7 +98,6 @@ func _on_attack_cooldown_timeout() -> void:
 	can_attack = true
 	
 func _on_mouse_dead_zone_mouse_entered() -> void:
-	print("Mouse enterd DEADSZONE")
 	can_move = false
 
 func _on_mouse_dead_zone_mouse_exited() -> void:

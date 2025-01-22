@@ -1,7 +1,7 @@
-[gd_scene load_steps=8 format=3 uid="uid://cvg7r7lb625aw"]
+[gd_scene load_steps=15 format=3 uid="uid://cvg7r7lb625aw"]
 
 [ext_resource type="Script" path="res://Scripts/player.gd" id="1_ofxxp"]
-[ext_resource type="Texture2D" uid="uid://b5ib34vkp7jjh" path="res://Entities/arrow.png" id="2_xycmf"]
+[ext_resource type="Texture2D" uid="uid://cncsjivia4c3b" path="res://Entities/arrow.png" id="2_xycmf"]
 [ext_resource type="Texture2D" uid="uid://d1oifkfb6yyrc" path="res://Entities/hero.png" id="3_7iwh6"]
 
 [sub_resource type="Curve" id="Curve_albx3"]
@@ -15,6 +15,66 @@ point_count = 2
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_hh3ye"]
 radius = 13.2097
 height = 40.2033
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ff6hv"]
+atlas = ExtResource("3_7iwh6")
+region = Rect2(0, 32, 20, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ashep"]
+atlas = ExtResource("3_7iwh6")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_a1t1m"]
+atlas = ExtResource("3_7iwh6")
+region = Rect2(0, 16, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7ean4"]
+atlas = ExtResource("3_7iwh6")
+region = Rect2(16, 16, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_v6hvx"]
+atlas = ExtResource("3_7iwh6")
+region = Rect2(32, 16, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_268a2"]
+atlas = ExtResource("3_7iwh6")
+region = Rect2(48, 16, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_frvbp"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ff6hv")
+}],
+"loop": false,
+"name": &"attack",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ashep")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_a1t1m")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7ean4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_v6hvx")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_268a2")
+}],
+"loop": true,
+"name": &"run",
+"speed": 5.0
+}]
 
 [node name="Player" type="CharacterBody2D" groups=["player"]]
 collision_layer = 128
@@ -61,14 +121,16 @@ position = Vector2(0, -31)
 scale = Vector2(1.74115, 1.74115)
 shape = SubResource("CapsuleShape2D_hh3ye")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(2, -43)
-scale = Vector2(5.38109, 5.38109)
-texture = ExtResource("3_7iwh6")
+scale = Vector2(5.381, 5.381)
+sprite_frames = SubResource("SpriteFrames_frvbp")
+animation = &"attack"
+autoplay = "run"
+frame_progress = 1.0
 
-[node name="DashTracerLine" type="Line2D" parent="."]
-position = Vector2(-360, -344)
-default_color = Color(0, 0, 0, 1)
+[node name="DashMarker" type="Marker2D" parent="."]
+position = Vector2(0, -31)
 
 [connection signal="timeout" from="AttackCooldown" to="." method="_on_attack_cooldown_timeout"]
 [connection signal="timeout" from="AttackDuration" to="." method="_on_attack_duration_timeout"]

@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://ciw3hbvjj30gl"]
 
 [ext_resource type="Script" path="res://projectile.gd" id="1_k2edg"]
-[ext_resource type="Texture2D" uid="uid://dwe2gdat2cy1o" path="res://Entities/projectile.png" id="2_dk6rn"]
+[ext_resource type="Texture2D" uid="uid://dtxk38ff1n1y6" path="res://Entities/projectile.png" id="2_dk6rn"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_e2p8q"]
 
