@@ -116,6 +116,7 @@ region_enabled = true
 region_rect = Rect2(20, 48, 16, 16)
 
 [node name="StartGameUI" type="CanvasGroup" parent="."]
+z_index = 10
 position = Vector2(6, 23)
 
 [node name="Label" type="Label" parent="StartGameUI"]
@@ -138,6 +139,7 @@ text = "Click to start"
 
 [node name="MidGameUI" type="CanvasGroup" parent="."]
 visible = false
+z_index = 10
 
 [node name="ScoreLabel" type="Label" parent="MidGameUI"]
 offset_left = 63.0
@@ -160,6 +162,32 @@ size_flags_vertical = 8
 theme_override_font_sizes/font_size = 30
 text = "x1"
 metadata/_edit_use_anchors_ = true
+
+[node name="DeadGameUI" type="CanvasGroup" parent="."]
+visible = false
+z_index = 10
+
+[node name="Label" type="Label" parent="DeadGameUI"]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = 222.0
+offset_top = 285.0
+offset_right = 581.0
+offset_bottom = 398.0
+grow_horizontal = 2
+size_flags_horizontal = 8
+theme_override_font_sizes/font_size = 40
+text = "You have died"
+
+[node name="Label2" type="Label" parent="DeadGameUI"]
+offset_left = 279.0
+offset_top = 345.0
+offset_right = 580.0
+offset_bottom = 458.0
+size_flags_horizontal = 8
+theme_override_font_sizes/font_size = 20
+text = "Click to restart"
 
 [connection signal="timeout" from="EnemySpawnTimer" to="." method="_on_enemy_spawn_timer_timeout"]
 [connection signal="timeout" from="ComboTimer" to="." method="_on_combo_timer_timeout"]

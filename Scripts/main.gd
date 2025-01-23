@@ -34,6 +34,7 @@ func _process(delta: float) -> void:
 func start():
 	$StartGameUI.visible = false
 	$MidGameUI.visible = true
+	$DeadGameUI.visible = false
 	gameState = gameStateValues.PLAYING
 	clear_active_enemies()
 	clear_inactive_enemies()
@@ -110,3 +111,4 @@ func _on_event_player_death():
 	gameState = gameStateValues.DEAD
 	$EnemySpawnTimer.stop()
 	$MidGameUI.visible = false
+	$DeadGameUI.visible = true
