@@ -130,18 +130,19 @@ func _on_hitbox_area_entered_exited(area: Area2D) -> void:
 			
 		else:
 			print("Projectile detected")
-			get_tree().paused = true
-			queue_free()
+			Events.player_death.emit()
+			queue_free()			
+
 		return
 	## Area is a EnemyHitbox
 	var enemy = area.get_parent()
 	if is_attacking and not enemy.is_dead:
 		# Player always kills enemy if attacking
+		print("ENEMY DIE")
 		enemies_killed_in_dash+=1		
 		enemy.die()
 		
 	elif enemy.has_method("get_is_attacking"):\
 		if enemy.get_is_attacking():
-			#print("DEATH")
 			Events.player_death.emit()
 			queue_free()			

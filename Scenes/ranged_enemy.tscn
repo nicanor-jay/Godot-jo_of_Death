@@ -1,7 +1,8 @@
-[gd_scene load_steps=7 format=3 uid="uid://cs3f6grod8yjp"]
+[gd_scene load_steps=20 format=3 uid="uid://cs3f6grod8yjp"]
 
 [ext_resource type="Script" path="res://Scripts/ranged_enemy.gd" id="1_0aic2"]
 [ext_resource type="Texture2D" uid="uid://c6mwhkj2aj7ff" path="res://Entities/icon.svg" id="1_10e46"]
+[ext_resource type="Texture2D" uid="uid://cigpog7btrwcd" path="res://Entities/ranged_enemy.png" id="2_aj73u"]
 [ext_resource type="Script" path="res://Scripts/hitbox.gd" id="2_gslns"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_2koog"]
@@ -12,17 +13,117 @@
 radius = 14.0538
 height = 40.9903
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_7tj62"]
+atlas = ExtResource("2_aj73u")
+region = Rect2(32, 32, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_o3lsy"]
+atlas = ExtResource("2_aj73u")
+region = Rect2(0, 32, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_c2unm"]
+atlas = ExtResource("2_aj73u")
+region = Rect2(16, 32, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_71fbs"]
+atlas = ExtResource("2_aj73u")
+region = Rect2(0, 48, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2rp6o"]
+atlas = ExtResource("2_aj73u")
+region = Rect2(16, 48, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xrtpa"]
+atlas = ExtResource("2_aj73u")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_t6euf"]
+atlas = ExtResource("2_aj73u")
+region = Rect2(0, 16, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ydjw5"]
+atlas = ExtResource("2_aj73u")
+region = Rect2(16, 16, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4ij8k"]
+atlas = ExtResource("2_aj73u")
+region = Rect2(32, 16, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_jee0x"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7tj62")
+}],
+"loop": false,
+"name": &"attack",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_o3lsy")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_c2unm")
+}],
+"loop": true,
+"name": &"charge",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_71fbs")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2rp6o")
+}],
+"loop": false,
+"name": &"death",
+"speed": 1.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xrtpa")
+}],
+"loop": false,
+"name": &"idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_t6euf")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ydjw5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4ij8k")
+}],
+"loop": true,
+"name": &"run",
+"speed": 5.0
+}]
+
+[sub_resource type="Curve" id="Curve_ai7us"]
+_data = [Vector2(0.662921, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), -3.09707, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="Gradient" id="Gradient_bqtty"]
+offsets = PackedFloat32Array(0, 0.78)
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
+
 [node name="ranged_enemy" type="CharacterBody2D"]
 collision_layer = 0
 script = ExtResource("1_0aic2")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+visible = false
 position = Vector2(0, -2.98023e-08)
 scale = Vector2(-0.328, -0.492)
 texture = ExtResource("1_10e46")
 
 [node name="CollisionBox" type="CollisionShape2D" parent="."]
-position = Vector2(0, 16)
+position = Vector2(0, -15)
 scale = Vector2(1.50876, 1.50876)
 shape = SubResource("CircleShape2D_2koog")
 
@@ -43,6 +144,7 @@ collision_mask = 8
 script = ExtResource("2_gslns")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
+position = Vector2(0, -31)
 scale = Vector2(1.70772, 1.70772)
 shape = SubResource("CapsuleShape2D_n37so")
 
@@ -52,27 +154,52 @@ one_shot = true
 [node name="AttackCooldown" type="Timer" parent="."]
 one_shot = true
 
-[node name="AttackDuration" type="Timer" parent="."]
-wait_time = 0.15
-one_shot = true
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(2, -43)
+scale = Vector2(5.31, 5.31)
+sprite_frames = SubResource("SpriteFrames_jee0x")
+animation = &"death"
 
-[node name="CPUParticles2D" type="CPUParticles2D" parent="."]
-position = Vector2(-1, 0)
+[node name="DeathParticles" type="CPUParticles2D" parent="."]
+position = Vector2(2, -28)
 emitting = false
-amount = 30
+amount = 40
 lifetime = 0.5
 one_shot = true
 direction = Vector2(0, -1)
-spread = 180.0
+spread = 90.0
 gravity = Vector2(0, -980)
 initial_velocity_min = 15.0
 initial_velocity_max = 90.0
-scale_amount_min = 2.0
-scale_amount_max = 5.0
+scale_amount_max = 10.0
+scale_amount_curve = SubResource("Curve_ai7us")
 color = Color(0.929366, 0, 0.15816, 1)
+
+[node name="ArrowOrignMarker" type="Marker2D" parent="."]
+position = Vector2(0, -32)
+
+[node name="SmokeAppear" type="CPUParticles2D" parent="."]
+position = Vector2(-3, -28)
+emitting = false
+amount = 5
+lifetime = 0.8
+one_shot = true
+explosiveness = 1.0
+direction = Vector2(0, 0)
+spread = 180.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 50.0
+initial_velocity_max = 50.0
+angle_min = 180.0
+angle_max = 180.0
+scale_amount_min = 20.0
+scale_amount_max = 50.0
+color_ramp = SubResource("Gradient_bqtty")
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
 
 [connection signal="body_entered" from="AttackDetectionRange" to="." method="_on_attack_detection_range_body_entered"]
 [connection signal="body_exited" from="AttackDetectionRange" to="." method="_on_attack_detection_range_body_exited"]
 [connection signal="timeout" from="AttackChargeUp" to="." method="_on_attack_charge_up_timeout"]
 [connection signal="timeout" from="AttackCooldown" to="." method="_on_attack_cooldown_timeout"]
-[connection signal="timeout" from="AttackDuration" to="." method="_on_attack_duration_timeout"]
+[connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_finished"]

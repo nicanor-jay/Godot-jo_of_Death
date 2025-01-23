@@ -13,8 +13,8 @@ point_count = 2
 [sub_resource type="CircleShape2D" id="CircleShape2D_bt4oy"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_hh3ye"]
-radius = 13.2097
-height = 40.2033
+radius = 10.338
+height = 33.3113
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ff6hv"]
 atlas = ExtResource("3_7iwh6")
@@ -121,7 +121,7 @@ collision_layer = 8
 collision_mask = 16
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
-position = Vector2(0, -31)
+position = Vector2(0, -25)
 scale = Vector2(1.74115, 1.74115)
 shape = SubResource("CapsuleShape2D_hh3ye")
 

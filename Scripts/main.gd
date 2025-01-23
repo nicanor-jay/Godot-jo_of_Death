@@ -63,20 +63,22 @@ func clear_inactive_enemies():
 			node.queue_free()
 
 func _on_enemy_spawn_timer_timeout() -> void:
-	print("Spawning Enemy")
-	spawn_enemy()
+	if player != null:
+		print("Spawning Enemy")
+		spawn_enemy()
 
 func spawn_enemy() -> void:
 	var new_enemy
-	#if randf() < 0.5:
-		#new_enemy = preload("res://Scenes/melee_enemy.tscn").instantiate()
-	#else:
-		#new_enemy = preload("res://Scenes/ranged_enemy.tscn").instantiate()
+	if randf() < 0.5:
+		new_enemy = preload("res://Scenes/melee_enemy.tscn").instantiate()
+	else:
+		new_enemy = preload("res://Scenes/ranged_enemy.tscn").instantiate()
 		
-	new_enemy = preload("res://Scenes/melee_enemy.tscn").instantiate()	
+	#new_enemy = preload("res://Scenes/melee_enemy.tscn").instantiate()	
+	#new_enemy = preload("res://Scenes/ranged_enemy.tscn").instantiate()	
+	
 		
 	$Level/Path2D/PathFollow2D.progress_ratio = randf()
-	
 	while $Level/Path2D/PathFollow2D.global_position.distance_to(player.global_position) < SAVE_ZONE_DISTANCE:
 		print("GETTING NEW SPAWN")
 		$Level/Path2D/PathFollow2D.progress_ratio = randf()

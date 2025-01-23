@@ -161,7 +161,7 @@ one_shot = true
 position = Vector2(2, -43)
 scale = Vector2(5.31, 5.31)
 sprite_frames = SubResource("SpriteFrames_f7ohu")
-animation = &"idle"
+animation = &"death"
 
 [node name="DeathParticles" type="CPUParticles2D" parent="."]
 position = Vector2(2, -28)

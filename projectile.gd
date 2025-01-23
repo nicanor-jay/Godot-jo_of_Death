@@ -27,6 +27,7 @@ func break_apart():
 		print("Snapped Arrow")
 		snapped = true
 		$Sprite2D.queue_free()
+		$Sprite2D2.queue_free()
 		$CollisionShape2D.queue_free()
 		
 		$CPUParticles2D.emitting = true

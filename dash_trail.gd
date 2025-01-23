@@ -16,7 +16,7 @@ func _ready() -> void:
 	timer.start()	
 
 func _process(delta: float) -> void:
-	modulate.a -=1.5 * delta
+	modulate.a -=1.5	 * delta
 
 func init_line(position: Vector2, color: Color = LINE_COLOR, width:float = LINE_WIDTH):
 	self.begin_cap_mode = Line2D.LINE_CAP_ROUND

@@ -73,7 +73,7 @@ func _on_area_2d_body_exited(body: Node2D) -> void:
 		in_range = false
 
 func _on_attack_charge_up_timeout() -> void:
-	if not is_dead:
+	if not is_dead && player !=null:
 		print("attacking")
 		dash_direction = global_position.direction_to(player.global_position)
 		if dash_direction.x < 0:
@@ -97,7 +97,7 @@ func _on_attack_cooldown_timeout() -> void:
 	is_cooling_down = false
 	
 func _on_animated_sprite_2d_animation_finished() -> void:
-	
+	print("Enemy died")
 	var dead_sprite = Sprite2D.new()
 	dead_sprite.texture = deadSpriteTemp.texture
 	dead_sprite.scale = deadSpriteTemp.scale
