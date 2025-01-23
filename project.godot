@@ -23,6 +23,7 @@ Events="*res://Scripts/Events.gd"
 
 window/size/viewport_width=700
 window/size/viewport_height=700
+window/size/resizable=false
 
 [global_group]
 

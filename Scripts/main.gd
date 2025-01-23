@@ -39,7 +39,7 @@ func start():
 	clear_active_enemies()
 	clear_inactive_enemies()
 	score = 0
-	$MidGameUI/ScoreLabel.text = "Score: 0"
+	$MidGameUI/ScoreLabel.text = "0"
 	$MidGameUI/ComboLabel.text = "x1"
 	
 	$ComboTimer.wait_time = DEFAULT_COMBO_DURATION
@@ -89,7 +89,7 @@ func spawn_enemy() -> void:
 	
 func _on_event_add_to_score(points: int):
 	score = score+points
-	$MidGameUI/ScoreLabel.text = "Score: " + str(score)
+	$MidGameUI/ScoreLabel.text = str(score)
 
 func _on_event_add_to_combo(points: int):
 	combo += points

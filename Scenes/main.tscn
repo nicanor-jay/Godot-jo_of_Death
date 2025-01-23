@@ -1,8 +1,9 @@
-[gd_scene load_steps=7 format=3 uid="uid://ds7eus4erbjtl"]
+[gd_scene load_steps=8 format=3 uid="uid://ds7eus4erbjtl"]
 
 [ext_resource type="Script" path="res://Scripts/main.gd" id="1_kn0ru"]
 [ext_resource type="Texture2D" uid="uid://c6mwhkj2aj7ff" path="res://Entities/icon.svg" id="2_maliw"]
 [ext_resource type="Texture2D" uid="uid://cigpog7btrwcd" path="res://Entities/ranged_enemy.png" id="3_onbhm"]
+[ext_resource type="FontFile" uid="uid://d4i8hjey68jqk" path="res://njnaruto.ttf" id="5_lbxif"]
 [ext_resource type="Texture2D" uid="uid://bak5wgw6f2hoh" path="res://Entities/melee_enemy.png" id="5_wy88h"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_5yf2v"]
@@ -100,7 +101,7 @@ scale = Vector2(0.328125, 0.492188)
 texture = ExtResource("2_maliw")
 
 [node name="DeadRangedSprite" type="Sprite2D" parent="."]
-position = Vector2(-111, -153)
+position = Vector2(-110, -153)
 rotation = 0.00242928
 scale = Vector2(5.31, 5.31)
 texture = ExtResource("3_onbhm")
@@ -120,26 +121,31 @@ z_index = 10
 position = Vector2(6, 23)
 
 [node name="Label" type="Label" parent="StartGameUI"]
-offset_left = 201.0
+offset_left = 181.0
 offset_top = 265.0
-offset_right = 502.0
+offset_right = 509.0
 offset_bottom = 378.0
 size_flags_horizontal = 8
+theme_override_colors/font_color = Color(0.854902, 0, 0, 1)
+theme_override_fonts/font = ExtResource("5_lbxif")
 theme_override_font_sizes/font_size = 40
 text = "Dojo Of Demise"
 
 [node name="Label2" type="Label" parent="StartGameUI"]
-offset_left = 283.0
+offset_left = 269.0
 offset_top = 322.0
-offset_right = 584.0
+offset_right = 570.0
 offset_bottom = 435.0
 size_flags_horizontal = 8
+theme_override_colors/font_color = Color(0.854902, 0, 0, 1)
+theme_override_fonts/font = ExtResource("5_lbxif")
 theme_override_font_sizes/font_size = 20
 text = "Click to start"
 
 [node name="MidGameUI" type="CanvasGroup" parent="."]
 visible = false
 z_index = 10
+position = Vector2(0, 21)
 
 [node name="ScoreLabel" type="Label" parent="MidGameUI"]
 offset_left = 63.0
@@ -148,9 +154,10 @@ offset_right = 194.0
 offset_bottom = 101.0
 size_flags_horizontal = 8
 size_flags_vertical = 8
+theme_override_colors/font_color = Color(0.854902, 0, 0, 1)
+theme_override_fonts/font = ExtResource("5_lbxif")
 theme_override_font_sizes/font_size = 30
 text = "Score: "
-metadata/_edit_use_anchors_ = true
 
 [node name="ComboLabel" type="Label" parent="MidGameUI"]
 offset_left = 572.0
@@ -159,9 +166,10 @@ offset_right = 703.0
 offset_bottom = 104.0
 size_flags_horizontal = 8
 size_flags_vertical = 8
+theme_override_colors/font_color = Color(0.854902, 0, 0, 1)
+theme_override_fonts/font = ExtResource("5_lbxif")
 theme_override_font_sizes/font_size = 30
 text = "x1"
-metadata/_edit_use_anchors_ = true
 
 [node name="DeadGameUI" type="CanvasGroup" parent="."]
 visible = false
@@ -177,6 +185,8 @@ offset_right = 581.0
 offset_bottom = 398.0
 grow_horizontal = 2
 size_flags_horizontal = 8
+theme_override_colors/font_color = Color(0.854902, 0, 0, 1)
+theme_override_fonts/font = ExtResource("5_lbxif")
 theme_override_font_sizes/font_size = 40
 text = "You have died"
 
@@ -186,6 +196,7 @@ offset_top = 345.0
 offset_right = 580.0
 offset_bottom = 458.0
 size_flags_horizontal = 8
+theme_override_colors/font_color = Color(0.854902, 0, 0, 1)
 theme_override_font_sizes/font_size = 20
 text = "Click to restart"
 

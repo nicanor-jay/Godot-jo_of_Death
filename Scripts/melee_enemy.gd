@@ -105,6 +105,7 @@ func _on_animated_sprite_2d_animation_finished() -> void:
 	dead_sprite.region_enabled = true
 	dead_sprite.region_rect = Rect2(Vector2(20, 48), Vector2(16,16))
 	dead_sprite.add_to_group("dead_enemies")
+	dead_sprite.set_process(false)
 	get_parent().add_child.call_deferred(dead_sprite)
 	queue_free()
 	
