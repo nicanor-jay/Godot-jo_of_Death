@@ -3,7 +3,6 @@ class_name Enemy
 
 @onready var player = get_node("/root/Main/Player")
 @onready var deadSpriteTemp = get_node("/root/Main/DeadMeleeSprite")
-
 const DEFAULT_SPEED = 150.0
 const DASH_SPEED = 900
 

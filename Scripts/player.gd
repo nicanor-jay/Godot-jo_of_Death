@@ -46,7 +46,8 @@ func _physics_process(delta: float) -> void:
 		return
 	if is_dead:
 		# play death animation
-		pass
+		#$AnimatedSprite2D.play("death")
+		return
 	
 	if is_attacking:
 		$AnimatedSprite2D.play("attack")
@@ -129,9 +130,11 @@ func _on_hitbox_area_entered_exited(area: Area2D) -> void:
 			enemies_killed_in_dash+=1
 			
 		else:
-			print("Projectile detected")
-			Events.player_death.emit()
-			queue_free()			
+			if not is_dead:
+				print("Projectile detected")
+				$AnimatedSprite2D.play("death")
+				is_dead = true
+				$DeathParticles.emitting = true
 
 		return
 	## Area is a EnemyHitbox
@@ -143,6 +146,14 @@ func _on_hitbox_area_entered_exited(area: Area2D) -> void:
 		enemy.die()
 		
 	elif enemy.has_method("get_is_attacking"):\
-		if enemy.get_is_attacking():
-			Events.player_death.emit()
-			queue_free()			
+		if enemy.get_is_attacking() && not is_dead:
+			$AnimatedSprite2D.play("death")
+			is_dead = true
+			$DeathParticles.emitting = true
+
+
+func _on_animated_sprite_2d_animation_finished() -> void:
+	if $AnimatedSprite2D.animation == "death":
+		Events.player_death.emit()
+		queue_free()			
+	

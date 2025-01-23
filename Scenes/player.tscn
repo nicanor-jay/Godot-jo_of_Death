@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://cvg7r7lb625aw"]
+[gd_scene load_steps=20 format=3 uid="uid://cvg7r7lb625aw"]
 
 [ext_resource type="Script" path="res://Scripts/player.gd" id="1_ofxxp"]
 [ext_resource type="Texture2D" uid="uid://cncsjivia4c3b" path="res://Entities/arrow.png" id="2_xycmf"]
@@ -19,6 +19,18 @@ height = 33.3113
 [sub_resource type="AtlasTexture" id="AtlasTexture_ff6hv"]
 atlas = ExtResource("3_7iwh6")
 region = Rect2(0, 32, 20, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ydpk3"]
+atlas = ExtResource("3_7iwh6")
+region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6mjxu"]
+atlas = ExtResource("3_7iwh6")
+region = Rect2(32, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0xan6"]
+atlas = ExtResource("3_7iwh6")
+region = Rect2(32, 32, 16, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ashep"]
 atlas = ExtResource("3_7iwh6")
@@ -52,6 +64,20 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
+"texture": SubResource("AtlasTexture_ydpk3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6mjxu")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0xan6")
+}],
+"loop": false,
+"name": &"death",
+"speed": 1.0
+}, {
+"frames": [{
+"duration": 1.0,
 "texture": SubResource("AtlasTexture_ashep")
 }],
 "loop": true,
@@ -79,6 +105,10 @@ animations = [{
 [sub_resource type="Gradient" id="Gradient_gq35y"]
 offsets = PackedFloat32Array(0, 0.78)
 colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="Curve" id="Curve_8n8c8"]
+_data = [Vector2(0.662921, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), -3.09707, 0.0, 0, 0]
+point_count = 2
 
 [node name="Player" type="CharacterBody2D"]
 collision_layer = 128
@@ -129,7 +159,7 @@ shape = SubResource("CapsuleShape2D_hh3ye")
 position = Vector2(2, -43)
 scale = Vector2(5.381, 5.381)
 sprite_frames = SubResource("SpriteFrames_frvbp")
-animation = &"idle"
+animation = &"death"
 
 [node name="DashMarker" type="Marker2D" parent="."]
 position = Vector2(0, -31)
@@ -152,9 +182,25 @@ scale_amount_min = 20.0
 scale_amount_max = 50.0
 color_ramp = SubResource("Gradient_gq35y")
 
+[node name="DeathParticles" type="CPUParticles2D" parent="."]
+position = Vector2(2, -28)
+emitting = false
+amount = 40
+lifetime = 0.5
+one_shot = true
+direction = Vector2(0, -1)
+spread = 90.0
+gravity = Vector2(0, -980)
+initial_velocity_min = 15.0
+initial_velocity_max = 90.0
+scale_amount_max = 10.0
+scale_amount_curve = SubResource("Curve_8n8c8")
+color = Color(0.929366, 0, 0.15816, 1)
+
 [connection signal="timeout" from="AttackCooldown" to="." method="_on_attack_cooldown_timeout"]
 [connection signal="timeout" from="AttackDuration" to="." method="_on_attack_duration_timeout"]
 [connection signal="mouse_entered" from="MouseDeadZone" to="." method="_on_mouse_dead_zone_mouse_entered"]
 [connection signal="mouse_exited" from="MouseDeadZone" to="." method="_on_mouse_dead_zone_mouse_exited"]
 [connection signal="area_entered" from="Hitbox" to="." method="_on_hitbox_area_entered_exited"]
 [connection signal="area_exited" from="Hitbox" to="." method="_on_hitbox_area_entered_exited"]
+[connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_finished"]

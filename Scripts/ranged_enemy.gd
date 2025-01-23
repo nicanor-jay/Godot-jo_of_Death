@@ -4,7 +4,6 @@ extends CharacterBody2D
 const PROJECTILE = preload("res://Scenes/projectile.tscn")
 @onready var deadSpriteTemp = get_node("/root/Main/DeadRangedSprite")
 
-
 const DEFAULT_SPEED = 150.0
 
 var attack_dir: Vector2
